@@ -1,5 +1,4 @@
-import { Section1, Section2, Section3, Section4 } from "@/components/section";
-import { Footer } from "@/components";
+import { Section1, Section2, Section3, Section4 } from "@/app/(home)/components";
 
 type Section = {
   id: string;
@@ -22,10 +21,9 @@ export default function Home() {
       <ul>
         {sections.map(({ id, Component }) => (
           <li key={id} id={id}>
-            <div className="snap-start">
+            <div className="snap-end">
               <Component />
             </div>
-            {id === "section4" && <Footer />}
           </li>
         ))}
       </ul>
