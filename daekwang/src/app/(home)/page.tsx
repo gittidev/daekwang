@@ -1,4 +1,9 @@
-import { Section1, Section2, Section3, Section4 } from "@/app/(home)/components";
+import {
+  Section1,
+  Section2,
+  Section3,
+  Section4,
+} from "@/app/(home)/components";
 
 type Section = {
   id: string;
