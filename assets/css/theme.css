@@ -1,0 +1,11 @@
+:root {
+  --primary-color: rgb(7, 1, 1);
+  --secondary-color: #2ecc71;
+  --accent-color: rgb(225, 148, 255);
+}
+
+.dark-mode {
+  --primary-color: #1abc9c;
+  --secondary-color: #e74c3c;
+  --accent-color: #f1c40f;
+}

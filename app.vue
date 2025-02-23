@@ -10,9 +10,9 @@ const route = useRoute();
 </script>
 
 <template>
-  <div>
+  <v-app>
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </div>
+  </v-app>
 </template>

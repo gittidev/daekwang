@@ -6,9 +6,11 @@
     <header>
       <Navbar />
     </header>
-    <slot>
-      <NuxtPage />
-    </slot>
-    <footer><Footer /></footer>
+
+    <NuxtPage />
+
+    <footer>
+      <Footer />
+    </footer>
   </div>
 </template>
