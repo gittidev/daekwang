@@ -5,6 +5,7 @@ const cursorX = ref(0);
 const cursorY = ref(0);
 const cursorScale = ref(1);
 const cursorColor = ref("rgba(255, 255, 255, 0.3)");
+
 const updateCursor = (e: MouseEvent) => {
   cursorX.value = e.clientX;
   cursorY.value = e.clientY;
@@ -12,7 +13,7 @@ const updateCursor = (e: MouseEvent) => {
 
 const onMouseEnter = () => {
   cursorScale.value = 2;
-  cursorColor.value = "rgba(0, 0, 0, 0.5)";
+  cursorColor.value = "#00DC82";
 };
 
 const onMouseLeave = () => {
@@ -22,7 +23,7 @@ const onMouseLeave = () => {
 
 onMounted(() => {
   window.addEventListener("mousemove", updateCursor);
-  document.querySelectorAll("button, a, input").forEach((el) => {
+  document.querySelectorAll("button, a, input, nav").forEach((el) => {
     el.addEventListener("mouseenter", onMouseEnter);
     el.addEventListener("mouseleave", onMouseLeave);
   });
@@ -45,6 +46,7 @@ onUnmounted(() => {
       top: cursorY + 'px',
       transform: `translate(-50%, -50%) scale(${cursorScale})`,
       backgroundColor: cursorColor,
+      filter: cursorScale > 1 ? 'blur(6px)' : 'none',
     }"
   ></div>
 </template>
@@ -52,12 +54,16 @@ onUnmounted(() => {
 <style scoped>
 .custom-cursor {
   position: fixed;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   pointer-events: none;
-  transition: transform 0.2s ease-out, background-color 0.2s ease-out;
-  mix-blend-mode: difference;
+  transition: transform 0.3s ease-out, background-color 0.2s ease-out;
+  mix-blend-mode: screen;
   z-index: 9999;
+}
+
+.custom-cursor:hover {
+  box-shadow: 0 0 25px 10px rgba(0, 220, 130, 0.7);
 }
 </style>

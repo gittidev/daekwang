@@ -4,8 +4,15 @@ import { resolve } from "path";
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
-  devtools: { enabled: false },
-  modules: ["vuetify-nuxt-module", "nuxt-mdi", "@nuxt/image"],
+  devtools: { enabled: true },
+
+  modules: [
+    "vuetify-nuxt-module",
+    "nuxt-mdi",
+    "@nuxt/image",
+    "@nuxt/fonts",
+    "@nuxtjs/tailwindcss",
+  ],
   vuetify: {
     moduleOptions: {},
     vuetifyOptions: {},
@@ -14,5 +21,5 @@ export default defineNuxtConfig({
     "@": resolve(__dirname, "src"),
   },
   plugins: [],
-  css: ["~/assets/css/theme.css"],
+  css: ["~/assets/css/theme.css", "~/assets/css/global.css"],
 });

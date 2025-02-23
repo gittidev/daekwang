@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from "vue";
 
 const navItems = [
@@ -8,124 +8,100 @@ const navItems = [
   { label: "Works", to: "/works" },
 ];
 
-const drawer = ref(false);
+const menuOpen = ref(false);
 </script>
 
 <template>
-  <v-app-bar class="nav-bar" app color="primary">
-    <v-container
-      class="nav-content d-flex justify-space-between align-center"
-      active-class="none"
-    >
-      <div class="nav-logo">
-        <NuxtLink to="/">
-          <NuxtImg
-            src="/logo.svg"
-            alt="Logo"
-            class="logo"
-            sizes="xs:150px sm:180px md:200px"
-          />
-        </NuxtLink>
-        <h1>대광 PC</h1>
-      </div>
+  <header
+    class="fixed top-0 w-full glassmorphism px-6 py-4 flex justify-between items-center z-50"
+  >
+    <div class="flex items-center">
+      <NuxtLink to="/">
+        <img src="/logo.svg" alt="Logo" class="h-10" />
+      </NuxtLink>
+      <h1 class="text-2xl font-bold text-white ml-4">대광 PC</h1>
+    </div>
 
-      <!-- 데스크탑 네비게이션 메뉴 -->
-      <div class="nav-menu d-none d-md-flex">
+    <!-- 데스크탑 메뉴 -->
+    <nav class="hidden md:flex space-x-6">
+      <NuxtLink
+        v-for="item in navItems"
+        :key="item.to"
+        :to="item.to"
+        class="text-white font-semibold hover:text-accent"
+      >
+        {{ item.label }}
+      </NuxtLink>
+    </nav>
+
+    <!-- 햄버거 메뉴 버튼 -->
+    <button
+      class="md:hidden text-white"
+      @click="menuOpen = !menuOpen"
+      aria-label="Toggle Menu"
+    >
+      <svg
+        v-if="!menuOpen"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-8 w-8"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      </svg>
+
+      <svg
+        v-else
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-8 w-8"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </header>
+
+  <!-- 풀스크린 모바일 메뉴 -->
+  <transition name="fade">
+    <div
+      v-if="menuOpen"
+      class="fixed inset-0 bg-black bg-opacity-90 z-40 flex flex-col items-center justify-center"
+    >
+      <nav class="flex flex-col space-y-8 text-center">
         <NuxtLink
           v-for="item in navItems"
           :key="item.to"
           :to="item.to"
-          class="nav-link"
-          active-class="none"
+          class="text-2xl text-white font-bold"
+          @click="menuOpen = false"
         >
           {{ item.label }}
         </NuxtLink>
-      </div>
-    </v-container>
-
-    <!-- 모바일 메뉴 버튼 -->
-    <v-app-bar-nav-icon
-      class="d-md-none"
-      @click.stop="drawer = !drawer"
-      active-class="none"
-    ></v-app-bar-nav-icon>
-
-    <!-- 모바일 네비게이션 -->
-    <v-navigation-drawer
-      v-model="drawer"
-      location="right"
-      class="drawer"
-      height="100vh"
-      width="280"
-      color="primary"
-    >
-      <v-list>
-        <v-list-item
-          v-for="item in navItems"
-          :key="item.to"
-          :to="item.to"
-          class="nav-link-mobile"
-          @click="drawer = false"
-          active-class="none"
-        >
-          <v-list-item-title>{{ item.label }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-  </v-app-bar>
+      </nav>
+    </div>
+  </transition>
 </template>
 
-<style lang="postcss" scoped>
-/* 네비게이션 바 스타일 */
-.nav-bar {
-  padding: 10px;
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
 }
-
-/* 로고 스타일 */
-.nav-logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  max-height: 50px;
-}
-
-h1 {
-  font-size: 32px;
-  margin-left: 10px;
-}
-
-/* 네비게이션 메뉴 */
-.nav-menu {
-  display: flex;
-  gap: 20px;
-}
-
-.nav-link {
-  color: var(--primary-color);
-  font-weight: bold;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-  color: var(--accent-color);
-}
-
-/* 모바일 드로어 스타일 */
-.drawer {
-  height: 100vh !important;
-  width: 280px;
-  border-top-left-radius: 10px;
-}
-
-/* 모바일 네비게이션 링크 */
-.nav-link-mobile {
-  font-size: 18px;
-  font-weight: bold;
-  padding: 20px;
-  min-height: 60px; /* 항목이 너무 작아지지 않도록 설정 */
-  color: var(--primary-color);
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

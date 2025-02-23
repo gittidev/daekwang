@@ -1,16 +1,30 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div>
-    <Cursur />
-    <header>
+  <div class="default-layout">
+    <nav class="fixed-nav">
       <Navbar />
-    </header>
+    </nav>
+    <v-main class="main">
+      <slot />
+    </v-main>
 
-    <NuxtPage />
-
-    <footer>
-      <Footer />
-    </footer>
+    <Footer />
   </div>
+  <Cursur />
 </template>
+
+<style lang="postcss" scoped>
+.default-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--main-bg);
+}
+.fixed-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+</style>
