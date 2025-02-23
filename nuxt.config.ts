@@ -17,9 +17,6 @@ export default defineNuxtConfig({
     moduleOptions: {},
     vuetifyOptions: {},
   },
-  alias: {
-    "@": resolve(__dirname, "src"),
-  },
   plugins: [],
   css: ["~/assets/css/theme.css", "~/assets/css/global.css"],
 });

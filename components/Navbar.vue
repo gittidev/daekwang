@@ -4,8 +4,8 @@ import { ref } from "vue";
 const navItems = [
   { label: "Home", to: "/" },
   { label: "About", to: "/about" },
-  { label: "Contact", to: "/contact" },
   { label: "Works", to: "/works" },
+  { label: "Contact", to: "/contact" },
 ];
 
 const menuOpen = ref(false);
