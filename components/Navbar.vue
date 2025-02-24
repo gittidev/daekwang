@@ -85,7 +85,7 @@ const menuOpen = ref(false);
           v-for="item in navItems"
           :key="item.to"
           :to="item.to"
-          class="text-2xl text-white font-bold"
+          class="text-2xl text-white font-bold nav-item"
           @click="menuOpen = false"
         >
           {{ item.label }}

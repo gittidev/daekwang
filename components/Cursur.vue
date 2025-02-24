@@ -23,7 +23,7 @@ const onMouseLeave = () => {
 
 onMounted(() => {
   window.addEventListener("mousemove", updateCursor);
-  document.querySelectorAll("button, a, input, nav").forEach((el) => {
+  document.querySelectorAll("button, a, input, nav-item").forEach((el) => {
     el.addEventListener("mouseenter", onMouseEnter);
     el.addEventListener("mouseleave", onMouseLeave);
   });
