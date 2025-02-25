@@ -1,9 +1,182 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from "vue";
+
+const emailAddress = "yourcompany@email.com"; // 실제 이메일로 변경하세요
+const subject = "건축 견적 요청";
+
+const location = ref("");
+const timeline = ref("");
+const specification = ref("");
+const length = ref("");
+const equipment = ref("");
+
+const openEmailClient = () => {
+  const mailBody = `다음 세부사항이 포함된 견적을 제공해 주세요:
+- 시공 장소: ${location.value}
+- 시공 시기: ${timeline.value}
+- PC 박스 규격: ${specification.value}
+- 규격당 설치 길이 (미터): ${length.value}
+- 장비 지원 여부: ${equipment.value}`;
+
+  const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(mailBody)}`;
+  window.location.href = mailtoLink;
+};
+</script>
 
 <template>
-  <div>
-    Page: contact
+  <div class="container">
+    <div class="contact-content">
+      <div class="info-section">
+        <h2>견적 요청</h2>
+        <p>아래 정보를 입력해 주세요.</p>
+
+        <div class="form-group">
+          <label>시공 장소</label>
+          <input v-model="location" placeholder="서울특별시 강남구" />
+        </div>
+
+        <div class="form-group">
+          <label>시공 시기</label>
+          <input v-model="timeline" placeholder="2025년 3월" />
+        </div>
+
+        <div class="form-group">
+          <label>PC 박스 규격</label>
+          <input v-model="specification" placeholder="300x200x150mm" />
+        </div>
+
+        <div class="form-group">
+          <label>설치 길이 (m)</label>
+          <input v-model="length" placeholder="50m" />
+        </div>
+
+        <div class="form-group">
+          <label>장비 지원</label>
+          <input v-model="equipment" placeholder="있음/없음" />
+        </div>
+      </div>
+
+      <button class="contact-button" @click="openEmailClient">견적 요청</button>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--main-bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-content {
+  max-width: 500px;
+  width: 100%;
+  padding: 2rem;
+  background-color: var(--accent-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.info-section {
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  color: var(--main-color);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+p {
+  color: var(--main-color);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin: 0.75rem 0;
+}
+
+label {
+  display: block;
+  color: var(--main-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: #f9fafb; /* 더 부드러운 밝은 배경 */
+  color: var(--main-color);
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.2); /* 포커스 효과 */
+}
+
+.contact-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--secondary-color);
+  color: var(--main-font-color);
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.contact-button:hover {
+  background-color: var(--main-color);
+  transform: translateY(-2px); /* 살짝 떠오르는 효과 */
+}
+
+.contact-button:active {
+  transform: translateY(0);
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: var(--main-bg);
+  }
+
+  .contact-content {
+    background-color: #9ca3af;
+  }
+
+  h2,
+  p,
+  label {
+    color: #1e2a44;
+  }
+
+  input {
+    background-color: #f0f2f5;
+    color: #1e2a44;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-content {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
+</style>

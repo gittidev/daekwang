@@ -43,48 +43,48 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="index-carousel" ref="carousel">
-    <div class="carousel-img">
-      <div class="content-wrapper">
+  <div class="carousel-container" ref="carousel">
+    <div class="carousel-slide">
+      <div class="slide-content">
         <NuxtImg src="/img/main1.png" alt="대광 PC" />
-        <div class="text-content">
+        <div class="slide-text">
           <NuxtImg src="/logo_line.svg" alt="로고" sizes="20px" />
           <h1>대광 PC</h1>
           <p>믿을 수 있는 프리캐스트 콘크리트 전문 시공기업, 대광 PC</p>
         </div>
       </div>
     </div>
-    <div class="carousel-img">
-      <div class="content-wrapper">
+    <div class="carousel-slide">
+      <div class="slide-content">
         <NuxtImg src="/img/main2.png" alt="Precast Concrete 시공 예시" />
-        <div class="text-content">
+        <div class="slide-text">
           <h1>최고의 기술력과 노하우</h1>
           <p>정확하고 안전한 Precast Concrete 시공 예시</p>
         </div>
       </div>
     </div>
-    <div class="carousel-img">
-      <div class="content-wrapper">
+    <div class="carousel-slide">
+      <div class="slide-content">
         <NuxtImg src="/img/main3.png" alt="친환경 건축" />
-        <div class="text-content">
+        <div class="slide-text">
           <h1>친환경 건축을 선도하다</h1>
           <p>지속 가능한 프리캐스트 콘크리트 건축 솔루션</p>
         </div>
       </div>
     </div>
-    <div class="carousel-img">
-      <div class="content-wrapper">
+    <div class="carousel-slide">
+      <div class="slide-content">
         <NuxtImg src="/img/main4.png" alt="혁신적인 시공 방법" />
-        <div class="text-content">
+        <div class="slide-text">
           <h1>혁신적인 시공 방법</h1>
           <p>빠르고 효율적인 프리캐스트 콘크리트 시공 현장</p>
         </div>
       </div>
     </div>
-    <div class="carousel-img">
-      <div class="content-wrapper">
+    <div class="carousel-slide">
+      <div class="slide-content">
         <NuxtImg src="/img/main1.png" alt="대광 PC" />
-        <div class="text-content">
+        <div class="slide-text">
           <NuxtImg src="/logo_line.svg" alt="로고" sizes="20px" />
           <h1>대광 PC</h1>
           <p>믿을 수 있는 프리캐스트 콘크리트 전문 시공기업, 대광 PC</p>
@@ -95,16 +95,17 @@ onMounted(() => {
 </template>
 
 <style scoped lang="postcss">
-.index-carousel {
+.carousel-container {
   display: flex;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   min-height: 100vh;
   scroll-behavior: smooth;
   background: var(--main-bg);
+  overflow-y: hidden;
 }
 
-.carousel-img {
+.carousel-slide {
   flex: none;
   width: 100vw;
   height: 100vh;
@@ -116,7 +117,7 @@ onMounted(() => {
   box-shadow: inset 0 0 20px var(--shadow-color);
 }
 
-.content-wrapper {
+.slide-content {
   width: 100%;
   height: 100%;
   display: flex;
@@ -124,7 +125,7 @@ onMounted(() => {
   justify-content: center;
 }
 
-.content-wrapper img {
+.slide-content img {
   max-width: 60%;
   height: 100%;
   object-fit: cover;
@@ -134,12 +135,12 @@ onMounted(() => {
   box-shadow: 0 4px 20px var(--shadow-color);
 }
 
-.content-wrapper img:hover {
+.slide-content img:hover {
   filter: brightness(1);
   transform: scale(1.01);
 }
 
-.text-content {
+.slide-text {
   flex: 1;
   color: var(--main-font-color);
   display: flex;
@@ -152,47 +153,47 @@ onMounted(() => {
   text-shadow: var(--text-shadow);
 }
 
-.text-content h1 {
+.slide-text h1 {
   font-size: 2.5rem;
   font-weight: 700;
   color: var(--primary-color);
 }
 
-.text-content p {
+.slide-text p {
   font-size: 1.2rem;
   opacity: 0.9;
   color: var(--accent-color);
 }
 
-.text-content img {
+.slide-text img {
   width: 100px;
   filter: none;
   transition: transform 0.3s ease;
 }
 
-.text-content img:hover {
+.slide-text img:hover {
   transform: scale(1.05);
 }
 
-.index-carousel::-webkit-scrollbar {
+.carousel-container::-webkit-scrollbar {
   display: none;
 }
 
 @media (max-width: 768px) {
-  .text-content h1 {
+  .slide-text h1 {
     font-size: 2rem;
   }
 
-  .text-content p {
+  .slide-text p {
     font-size: 1rem;
   }
 
-  .content-wrapper img {
+  .slide-content img {
     max-width: 100%;
     height: auto;
   }
 
-  .text-content {
+  .slide-text {
     padding: 1.5rem;
   }
 }
