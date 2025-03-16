@@ -19,7 +19,7 @@ defineProps<{
 }>();
 </script>
 
-<style scoped lang="postcss">
+<style scoped>
 .case-card {
   background: var(--sub-bg);
   border-radius: 15px;

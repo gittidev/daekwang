@@ -67,77 +67,70 @@ onMounted(() => {
 
 <template>
   <div class="page-container">
+    <section class="intro-section">
+      <h1 class="section-title">광주/전남 지역</h1>
+      <h1 class="section-title">PC BOX 설치 전문기업</h1>
+      <p class="section-subtitle">
+        대광 PC는 합리적인 가격의 프리캐스트 콘크리트 암거/설치 전문 업체입니다.
+      </p>
+    </section>
+
     <section class="hero-section"><Carousel /></section>
-    <section class="projects-section">
-      <div class="content-wrapper">
-        <h2 class="section-heading">주요 시공 사례</h2>
-        <div class="slider-container">
-          <button
-            class="nav-arrow prev"
-            @click="movePrev"
-            aria-label="이전 프로젝트"
-          >
-            ◀
-          </button>
-          <div class="project-slider" ref="projectSlider">
-            <CaseCard
-              v-for="(project, index) in projects"
-              :key="index"
-              :image="project.image"
-              :title="project.title"
-              :date="project.date"
-            />
-          </div>
-          <button
-            class="nav-arrow next"
-            @click="moveNext"
-            aria-label="다음 프로젝트"
-          >
-            ▶
-          </button>
-        </div>
-      </div>
-    </section>
-    <section class="footer-section">
-      <div class="content-wrapper">Page: index_3</div>
-    </section>
   </div>
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
+/* 전체 페이지 래퍼 (스크롤 가능하게 설정) */
 .page-container {
-  overflow-y: auto;
+  height: 100vh;
+  overflow-y: scroll;
   scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* 각 섹션 */
+/* 스크롤바 숨기기 */
+.page-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* 섹션별 스크롤 스냅 */
+.intro-section,
 .hero-section,
 .projects-section,
 .footer-section {
   scroll-snap-align: start;
-  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  min-width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8rem 2rem;
 }
 
-.content-wrapper {
-  min-height: 100vh;
-  padding: 2rem 0;
-  font-size: 2rem;
+/* 섹션 제목 */
+.section-title {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
+.section-subtitle {
+  font-size: 1.5rem;
+  color: #e5e7eb; /* 밝은 회색 */
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* 프로젝트 섹션 */
 .projects-section {
   padding: 4rem 0;
   position: relative;
 }
 
-.section-heading {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  text-align: center;
-  margin-bottom: 2rem;
-  text-shadow: var(--text-shadow);
-}
-
+/* 프로젝트 슬라이더 */
 .slider-container {
   position: relative;
   max-width: 1600px;
@@ -153,19 +146,16 @@ onMounted(() => {
   gap: 2rem;
   padding: 0 3rem;
   scroll-behavior: smooth;
-  position: relative;
-  z-index: 10;
 }
 
 .project-slider::-webkit-scrollbar {
   display: none;
 }
 
+/* 개별 프로젝트 카드 */
 .project-slider .project-card {
   flex: 0 0 300px;
   scroll-snap-align: center;
-  position: relative;
-  z-index: 20;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -174,6 +164,7 @@ onMounted(() => {
   box-shadow: 0 8px 30px var(--shadow-color);
 }
 
+/* 네비게이션 버튼 */
 .nav-arrow {
   position: absolute;
   top: 50%;

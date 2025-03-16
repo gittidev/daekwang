@@ -10,25 +10,24 @@
   font-style: normal;
 }
 
-/* Tailwind의 darkMode를 활용하여 글로벌 테마 스타일 적용 */
 :root {
-  --primary-color: rgb(255, 255, 255);
-  --secondary-color: #6b7280;
-  --accent-color: #d1d5db;
-  --main-color: #0f172a;
-  --main-bg: linear-gradient(135deg, rgb(64, 102, 192) 0%, #1e2a44 100%);
-  --sub-bg: rgba(15, 23, 42, 0.4);
-  --main-font-color: rgb(255, 255, 255);
+  --primary-color: #ffffff;
+  --secondary-color: #e5e7eb;
+  --accent-color: #facc15; /* 강조 색상을 따뜻한 노란색으로 변경 */
+  --main-color: #1e293b;
+  --main-bg: linear-gradient(135deg, #202a44 0%, #0f172a 100%);
+  --sub-bg: rgba(15, 23, 42, 0.5);
+  --main-font-color: #ffffff;
   --footer-bg: #0f172a;
-  --shadow-color: rgba(0, 0, 0, 0.7);
-  --border-color: rgba(107, 114, 128, 0.2);
-  --text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-color: rgba(0, 0, 0, 0.6);
+  --border-color: rgba(255, 255, 255, 0.2);
+  --text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
 .dark {
   --primary-color: #d1d5db;
-  --secondary-color: #6b7280;
-  --accent-color: #9ca3af;
+  --secondary-color: #a1a1aa;
+  --accent-color: #ffdd57;
   --main-color: #1e2a44;
   --main-bg: linear-gradient(135deg, #1e2a44 0%, #0f172a 100%);
   --footer-bg: #1e2a44;

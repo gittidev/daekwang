@@ -1,33 +1,41 @@
-<script>
-export default {
-  data() {
-    return {
-      map: null,
-    };
-  },
-  mounted() {
-    kakao.maps.load(this.initMap);
-  },
-  methods: {
-    initMap() {
-      const container = document.getElementById("map");
-      const options = {
-        center: new kakao.maps.LatLng(35.17385806633973, 126.8106037272048),
-        level: 4,
-      };
-      var map = new kakao.maps.Map(container, options);
-      var markerPosition = new kakao.maps.LatLng(
-        35.17385806633973,
-        126.8106037272048
-      );
-      var marker = new kakao.maps.Marker({
-        position: markerPosition,
-      });
-      this.map = map;
-      marker.setMap(map);
-    },
-  },
+<script setup>
+import { onMounted, ref } from "vue";
+import { useRuntimeConfig } from "#app";
+
+const config = useRuntimeConfig();
+const kakaoApiKey = config.public.kakaoApiKey;
+const mapContainer = ref(null);
+
+const loadKakaoMap = () => {
+  if (typeof window !== "undefined" && window.kakao) {
+    kakao.maps.load(initMap);
+    return;
+  }
+  const script = document.createElement("script");
+  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoApiKey}&libraries=services&autoload=false`;
+  script.onload = () => kakao.maps.load(initMap);
+  document.head.appendChild(script);
 };
+
+const initMap = () => {
+  if (!mapContainer.value) return;
+
+  const options = {
+    center: new kakao.maps.LatLng(35.17385806633973, 126.8106037272048),
+    level: 4,
+  };
+
+  const map = new kakao.maps.Map(mapContainer.value, options);
+
+  const marker = new kakao.maps.Marker({
+    position: new kakao.maps.LatLng(35.17385806633973, 126.8106037272048),
+    map: map,
+  });
+};
+
+onMounted(() => {
+  loadKakaoMap();
+});
 </script>
 
 <template>
@@ -63,8 +71,8 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 2rem 0;
-  background: transparent;
-  color: var(--main-font-color);
+  background: var(--main-bg);
+  color: var(--primary-color);
 }
 
 .contact-container {
@@ -88,7 +96,7 @@ export default {
 .logo h1 {
   font-size: 1.8rem;
   font-weight: bold;
-  color: var(--primary-color);
+  color: var(--accent-color);
 }
 
 .contact-wrapper {
@@ -104,20 +112,22 @@ export default {
 
 .contact-content {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-direction: row;
+  gap: 2rem;
   font-size: 1rem;
   color: var(--secondary-color);
+  align-items: center;
 }
 
 .map {
-  width: 100%;
-  height: 200px;
+  width: 350px;
+  height: 250px;
   border-radius: 10px;
   border: 1px solid var(--border-color);
-  margin-top: 1rem;
+  background: var(--sub-bg);
 }
 
+/* 라이센스 문구 */
 .license {
   margin-top: 1rem;
   font-size: 0.9rem;
@@ -134,12 +144,14 @@ export default {
   }
 
   .contact-content {
+    flex-direction: column;
     align-items: center;
+    gap: 1.5rem;
   }
 
   .map {
-    height: 180px;
     width: 100%;
+    height: 200px;
   }
 }
 </style>

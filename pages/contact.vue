@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 
-const emailAddress = "yourcompany@email.com"; // 실제 이메일로 변경하세요
-const subject = "건축 견적 요청";
+const emailAddress = "pyw4733@hanmail.net";
+const subject = "PC암거 설치 견적 요청";
 
 const location = ref("");
 const timeline = ref("");
@@ -34,7 +34,7 @@ const openEmailClient = () => {
 
         <div class="form-group">
           <label>시공 장소</label>
-          <input v-model="location" placeholder="서울특별시 강남구" />
+          <input v-model="location" placeholder="전라남도 나주시" />
         </div>
 
         <div class="form-group">
@@ -79,9 +79,9 @@ const openEmailClient = () => {
   max-width: 500px;
   width: 100%;
   padding: 2rem;
-  background-color: var(--accent-color);
+  background: var(--sub-bg);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
 }
 
 .info-section {
@@ -89,14 +89,14 @@ const openEmailClient = () => {
 }
 
 h2 {
-  color: var(--main-color);
+  color: var(--primary-color);
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
 }
 
 p {
-  color: var(--main-color);
+  color: var(--accent-color);
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
@@ -107,7 +107,7 @@ p {
 
 label {
   display: block;
-  color: var(--main-color);
+  color: var(--primary-color);
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 0.25rem;
@@ -118,8 +118,8 @@ input {
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  background-color: #f9fafb; /* 더 부드러운 밝은 배경 */
-  color: var(--main-color);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--primary-color);
   font-size: 0.95rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -127,14 +127,14 @@ input {
 input:focus {
   outline: none;
   border-color: var(--secondary-color);
-  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.2); /* 포커스 효과 */
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 .contact-button {
   width: 100%;
   padding: 0.75rem;
-  background-color: var(--secondary-color);
-  color: var(--main-font-color);
+  background-color: var(--primary-color);
+  color: var(--main-color);
   border: none;
   border-radius: 6px;
   font-size: 1rem;
@@ -144,35 +144,38 @@ input:focus {
 }
 
 .contact-button:hover {
-  background-color: var(--main-color);
-  transform: translateY(-2px); /* 살짝 떠오르는 효과 */
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
 }
 
 .contact-button:active {
   transform: translateY(0);
 }
 
+/* 다크 모드 지원 */
 @media (prefers-color-scheme: dark) {
   .container {
     background: var(--main-bg);
   }
 
   .contact-content {
-    background-color: #9ca3af;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   h2,
   p,
   label {
-    color: #1e2a44;
+    color: var(--primary-color);
   }
 
   input {
-    background-color: #f0f2f5;
-    color: #1e2a44;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--primary-color);
   }
 }
 
+/* 반응형 */
 @media (max-width: 600px) {
   .contact-content {
     margin: 1rem;

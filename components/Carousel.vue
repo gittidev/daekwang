@@ -1,6 +1,33 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 
+const projects = [
+  {
+    image: "/img/main1.png",
+    title: "광주 상업 지구 프로젝트",
+    date: "2023년 5월",
+    location: "광주광역시",
+  },
+  {
+    image: "/img/main2.png",
+    title: "서울 주거 단지 시공",
+    date: "2022년 11월",
+    location: "서울특별시",
+  },
+  {
+    image: "/img/main3.png",
+    title: "부산 공공 건축물",
+    date: "2021년 8월",
+    location: "부산광역시",
+  },
+  {
+    image: "/img/main4.png",
+    title: "인천 산업 단지",
+    date: "2024년 1월",
+    location: "인천광역시",
+  },
+];
+
 const carousel = ref<HTMLDivElement | null>(null);
 let intervalId: number;
 
@@ -8,101 +35,62 @@ const moveNextSlide = () => {
   const el = carousel.value;
   if (!el) return;
 
-  const currentScroll = el.scrollLeft;
-  const maxScroll = el.scrollWidth - el.clientWidth;
+  const slideWidth = el.querySelector(".carousel-slide")?.clientWidth || 0;
+  const gap = 0; // 슬라이드 사이 간격 (CSS에서 추가하면 반영)
+  const nextPosition = el.scrollLeft + slideWidth + gap;
 
-  if (currentScroll >= maxScroll) {
-    el.scrollTo({ left: 0, behavior: "instant" });
+  if (nextPosition >= el.scrollWidth - el.clientWidth) {
+    el.scrollTo({ left: 0, behavior: "smooth" });
   } else {
-    el.scrollBy({ left: el.clientWidth, behavior: "smooth" });
-  }
-};
-
-const handleTransitionEnd = () => {
-  const el = carousel.value;
-  if (!el) return;
-
-  if (el.scrollLeft >= el.scrollWidth - el.clientWidth) {
-    el.scrollTo({ left: 0, behavior: "instant" });
+    el.scrollBy({ left: slideWidth + gap, behavior: "smooth" });
   }
 };
 
 onMounted(() => {
-  const el = carousel.value;
-  if (!el) return;
+  intervalId = window.setInterval(moveNextSlide, 7000);
+});
 
-  intervalId = window.setInterval(moveNextSlide, 5000);
-
-  el.addEventListener("transitionend", handleTransitionEnd);
-
-  onUnmounted(() => {
-    clearInterval(intervalId);
-    el.removeEventListener("transitionend", handleTransitionEnd);
-  });
+onUnmounted(() => {
+  clearInterval(intervalId);
 });
 </script>
 
 <template>
-  <div class="carousel-container" ref="carousel">
-    <div class="carousel-slide">
-      <div class="slide-content">
-        <NuxtImg src="/img/main1.png" alt="대광 PC" />
-        <div class="slide-text">
-          <NuxtImg src="/logo_line.svg" alt="로고" sizes="20px" />
-          <h1>대광 PC</h1>
-          <p>믿을 수 있는 프리캐스트 콘크리트 전문 시공기업, 대광 PC</p>
-        </div>
+  <div class="carousel-wrapper" ref="carousel">
+    <div
+      class="carousel-slide"
+      v-for="(project, index) in projects"
+      :key="index"
+    >
+      <!-- 왼쪽: 현장 이미지 -->
+      <div class="slide-image">
+        <NuxtImg :src="project.image" :alt="project.title" />
       </div>
-    </div>
-    <div class="carousel-slide">
-      <div class="slide-content">
-        <NuxtImg src="/img/main2.png" alt="Precast Concrete 시공 예시" />
-        <div class="slide-text">
-          <h1>최고의 기술력과 노하우</h1>
-          <p>정확하고 안전한 Precast Concrete 시공 예시</p>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-slide">
-      <div class="slide-content">
-        <NuxtImg src="/img/main3.png" alt="친환경 건축" />
-        <div class="slide-text">
-          <h1>친환경 건축을 선도하다</h1>
-          <p>지속 가능한 프리캐스트 콘크리트 건축 솔루션</p>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-slide">
-      <div class="slide-content">
-        <NuxtImg src="/img/main4.png" alt="혁신적인 시공 방법" />
-        <div class="slide-text">
-          <h1>혁신적인 시공 방법</h1>
-          <p>빠르고 효율적인 프리캐스트 콘크리트 시공 현장</p>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-slide">
-      <div class="slide-content">
-        <NuxtImg src="/img/main1.png" alt="대광 PC" />
-        <div class="slide-text">
-          <NuxtImg src="/logo_line.svg" alt="로고" sizes="20px" />
-          <h1>대광 PC</h1>
-          <p>믿을 수 있는 프리캐스트 콘크리트 전문 시공기업, 대광 PC</p>
-        </div>
+
+      <!-- 오른쪽: 프로젝트 정보 -->
+      <div class="slide-info">
+        <h2>{{ project.title }}</h2>
+        <p><strong>시공 날짜:</strong> {{ project.date }}</p>
+        <p><strong>위치:</strong> {{ project.location }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.carousel-container {
+.carousel-wrapper {
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto; /* 🔹 scroll 허용 */
   scroll-snap-type: x mandatory;
-  min-height: 100vh;
-  scroll-behavior: smooth;
-  background: var(--main-bg);
+  scroll-behavior: smooth; /* 🔹 부드러운 스크롤 */
   overflow-y: hidden;
+  height: 100vh;
+  white-space: nowrap;
+  padding: 0;
+}
+
+.carousel-wrapper::-webkit-scrollbar {
+  display: none; /* 🔹 스크롤바 숨김 */
 }
 
 .carousel-slide {
@@ -110,91 +98,69 @@ onMounted(() => {
   width: 100vw;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  scroll-snap-align: center;
-  background: var(--sub-bg);
-  box-shadow: inset 0 0 20px var(--shadow-color);
+  scroll-snap-align: start;
+  box-sizing: border-box;
 }
 
-.slide-content {
+/* 왼쪽: 현장 사진 */
+.slide-image {
+  flex: 1;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slide-image img {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.slide-content img {
-  max-width: 60%;
-  height: 100%;
   object-fit: cover;
-  filter: brightness(0.9);
-  transition: transform 0.3s ease-out, filter 0.3s ease-out;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px var(--shadow-color);
 }
 
-.slide-content img:hover {
-  filter: brightness(1);
-  transform: scale(1.01);
-}
-
-.slide-text {
+/* 오른쪽: 프로젝트 정보 */
+.slide-info {
   flex: 1;
-  color: var(--main-font-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  text-align: center;
-  gap: 1rem;
-  text-shadow: var(--text-shadow);
-}
-
-.slide-text h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
+  align-items: flex-start;
+  background: rgba(0, 0, 0, 0.6);
   color: var(--primary-color);
+  padding: 4rem;
 }
 
-.slide-text p {
+.slide-info h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.slide-info p {
   font-size: 1.2rem;
-  opacity: 0.9;
-  color: var(--accent-color);
+  margin: 0.5rem 0;
 }
 
-.slide-text img {
-  width: 100px;
-  filter: none;
-  transition: transform 0.3s ease;
-}
-
-.slide-text img:hover {
-  transform: scale(1.05);
-}
-
-.carousel-container::-webkit-scrollbar {
-  display: none;
-}
-
+/* 반응형 */
 @media (max-width: 768px) {
-  .slide-text h1 {
+  .carousel-slide {
+    flex-direction: column;
+  }
+
+  .slide-image {
+    height: 50vh;
+  }
+
+  .slide-info {
+    height: 50vh;
+    text-align: center;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .slide-info h2 {
     font-size: 2rem;
   }
 
-  .slide-text p {
+  .slide-info p {
     font-size: 1rem;
-  }
-
-  .slide-content img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  .slide-text {
-    padding: 1.5rem;
   }
 }
 </style>

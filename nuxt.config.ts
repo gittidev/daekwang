@@ -1,7 +1,11 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      kakaoApiKey: process.env.KAKAO_API_KEY,
+    },
+  },
   app: {
     head: {
       title: "대광 PC",
@@ -23,11 +27,6 @@ export default defineNuxtConfig({
           href: "/apple-touch-icon.png",
         },
         { rel: "manifest", href: "/site.webmanifest" },
-      ],
-      script: [
-        {
-          src: `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NUXT_PUBLIC_KAKAO_API_KEY}&libraries=services&autoload=false`,
-        },
       ],
     },
   },

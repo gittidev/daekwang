@@ -1,36 +1,55 @@
 <script setup lang="ts">
-// 더미 데이터 정의
+import { ref, computed } from "vue";
+
+const isMobile = ref(window.innerWidth < 768);
+
+window.addEventListener("resize", () => {
+  isMobile.value = window.innerWidth < 768;
+});
+
 const companyHistory = [
-  { year: "2015", event: "대광 PC 설립" },
-  { year: "2017", event: "광주 상업 지구 프로젝트 수주" },
-  { year: "2020", event: "전남 지역 PC BOX 설치 시장 점유율 1위" },
-  { year: "2023", event: "친환경 건축 인증 획득" },
+  { year: "1994", events: ["대광 PC 설립"] },
+  { year: "2017", events: ["광주 하남3지구 오수관로 설치"] },
+  {
+    year: "2025",
+    events: [
+      "영광 중점관리지역 PC 암거설치",
+      "친환경 건축 인증 획득",
+      "대형 프로젝트 수주",
+    ],
+  },
 ];
 
 const projectCases = [
   {
-    project: "광주 상업 지구",
-    client: "A 건설",
-    date: "2023-05",
+    project: "광주 첨단지구 도로 확장",
+    client: "광주시청",
+    date: "2024-02",
+    amount: "12억 원",
+  },
+  {
+    project: "목포 해양산업단지 조성",
+    client: "전남개발공사",
+    date: "2023-10",
+    amount: "18억 원",
+  },
+  {
+    project: "순천 친환경 주거단지",
+    client: "순천시청",
+    date: "2023-06",
+    amount: "25억 원",
+  },
+  {
+    project: "여수 산업단지 배수 개선",
+    client: "여수산업공단",
+    date: "2022-11",
     amount: "15억 원",
   },
   {
-    project: "서울 주거 단지",
-    client: "B 건설",
-    date: "2022-11",
-    amount: "20억 원",
-  },
-  {
-    project: "부산 공공 건축물",
-    client: "C 공사",
-    date: "2021-08",
-    amount: "10억 원",
-  },
-  {
-    project: "인천 산업 단지",
-    client: "D 산업",
-    date: "2024-01",
-    amount: "25억 원",
+    project: "나주 에너지밸리 인프라 구축",
+    client: "한전KDN",
+    date: "2022-08",
+    amount: "22억 원",
   },
 ];
 
@@ -40,41 +59,32 @@ const ceoCertifications = [
   "프리캐스트 콘크리트 전문가 인증 (2015년 취득)",
 ];
 
-const partnerCompanies = [
-  "현대중장비",
-  "두산인프라코어",
-  "볼보건설기계",
-  "삼성물산 중장비 부문",
-];
+const timelineAlign = computed(() => (isMobile.value ? "start" : "center"));
 </script>
 
 <template>
   <div class="page-wrapper">
-    <!-- 소개 섹션 -->
-    <v-container class="intro-section">
-      <h1 class="section-title">광주/전남 지역</h1>
-      <h1 class="section-title">PC BOX 설치 전문기업</h1>
-      <p class="section-subtitle">
-        대광 PC는 프리캐스트 콘크리트 기술을 바탕으로 지역 건설 산업을
-        선도합니다.
-      </p>
-    </v-container>
-
-    <!-- 주요 이력 섹션 -->
+    <!-- 주요 이력 -->
     <v-container class="history-section">
       <h2 class="section-heading">주요 이력</h2>
       <v-row justify="center">
         <v-col cols="12" md="8">
-          <v-timeline dense>
+          <v-timeline :align="timelineAlign" class="history-timeline">
             <v-timeline-item
-              v-for="(item, index) in companyHistory"
+              v-for="(history, index) in companyHistory"
               :key="index"
-              color="white"
+              :color="'#4F46E5'"
               small
             >
-              <v-card class="elevation-2 history-card">
-                <v-card-title class="text-h6">{{ item.year }}</v-card-title>
-                <v-card-text>{{ item.event }}</v-card-text>
+              <v-card class="history-card">
+                <v-card-title class="text-h6">{{ history.year }}</v-card-title>
+                <v-card-text>
+                  <ul>
+                    <li v-for="(event, idx) in history.events" :key="idx">
+                      {{ event }}
+                    </li>
+                  </ul>
+                </v-card-text>
               </v-card>
             </v-timeline-item>
           </v-timeline>
@@ -82,46 +92,31 @@ const partnerCompanies = [
       </v-row>
     </v-container>
 
-    <!-- 시공 사례 섹션 -->
+    <!-- 시공 사례 -->
     <v-container class="cases-section">
-      <h2 class="section-heading">시공 사례</h2>
+      <h2 class="section-heading">전남권역 시공 사례</h2>
       <v-row justify="center">
         <v-col cols="12" md="10">
-          <v-table class="project-table">
-            <thead>
-              <tr>
-                <th>프로젝트명</th>
-                <th>발주처</th>
-                <th>완료일</th>
-                <th>금액</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(caseItem, index) in projectCases" :key="index">
-                <td>{{ caseItem.project }}</td>
-                <td>{{ caseItem.client }}</td>
-                <td>{{ caseItem.date }}</td>
-                <td>{{ caseItem.amount }}</td>
-              </tr>
-            </tbody>
-          </v-table>
-        </v-col>
-      </v-row>
-    </v-container>
-
-    <!-- 사장님 자격증 섹션 -->
-    <v-container class="certifications-section">
-      <h2 class="section-heading">대표 자격증</h2>
-      <v-row justify="center">
-        <v-col cols="12" md="6">
-          <v-list class="cert-list">
-            <v-list-item
-              v-for="(cert, index) in ceoCertifications"
-              :key="index"
-            >
-              <v-list-item-title>{{ cert }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
+          <div class="table-wrapper">
+            <v-table class="project-table">
+              <thead>
+                <tr>
+                  <th>프로젝트명</th>
+                  <th>발주처</th>
+                  <th>완료일</th>
+                  <th>금액</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(caseItem, index) in projectCases" :key="index">
+                  <td>{{ caseItem.project }}</td>
+                  <td>{{ caseItem.client }}</td>
+                  <td>{{ caseItem.date }}</td>
+                  <td>{{ caseItem.amount }}</td>
+                </tr>
+              </tbody>
+            </v-table>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -129,18 +124,21 @@ const partnerCompanies = [
 </template>
 
 <style scoped>
-/* 전체 페이지 래퍼 */
+/* 전체 페이지 스타일 */
 .page-wrapper {
-  background-color: #0f172a; /* 어두운 남색 */
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   color: #ffffff;
   height: 100vh;
   overflow-y: scroll;
-  scroll-snap-type: y mandatory; /* 수직 스냅 스크롤 */
-  -webkit-overflow-scrolling: touch; /* 모바일에서 부드러운 스크롤 */
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* 개별 섹션 */
-.intro-section,
+/* 스크롤바 숨기기 */
+.page-wrapper::-webkit-scrollbar {
+  display: none;
+}
+/* 주요 섹션 스타일 */
 .history-section,
 .cases-section,
 .certifications-section {
@@ -149,95 +147,83 @@ const partnerCompanies = [
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 4rem 2rem;
+  align-items: center;
+  padding: 6rem 2rem;
+  min-width: 100%;
 }
 
-/* 부드러운 스크롤 */
-html {
-  scroll-behavior: smooth;
+.v-row {
+  min-width: 100%;
 }
 
 /* 섹션 제목 */
-.section-title {
-  font-size: 4rem;
-  font-weight: bold;
-  color: #ffffff;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.section-subtitle {
-  font-size: 1.5rem;
-  color: #e5e7eb; /* 밝은 회색으로 살짝 대비 */
-  text-align: center;
-  margin-top: 1rem;
-}
-
 .section-heading {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: #ffffff;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
-/* 주요 이력 타임라인 */
+/* 이력 타임라인 스타일 */
+.history-timeline {
+  width: 100%;
+  max-width: 800px;
+}
+
 .history-card {
-  background-color: #1e293b; /* 조금 밝은 남색 */
-  color: #ffffff;
-  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* 시공 사례 테이블 */
+/* 시공 사례 테이블 스타일 */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
 .project-table {
-  background-color: #1e293b;
+  width: 100%;
+  min-width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   border-radius: 8px;
   overflow: hidden;
 }
 
-.project-table th {
-  background-color: #0f172a;
-  color: #ffffff;
-  font-size: 1.2rem;
-  padding: 1rem;
-}
-
+.project-table th,
 .project-table td {
   padding: 1rem;
-  border-bottom: 1px solid #374151; /* 구분선 */
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* 자격증 및 협력 회사 목록 */
-.cert-list,
-.partner-list {
-  background-color: transparent;
+.project-table th {
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: bold;
 }
 
-.cert-list .v-list-item-title,
-.partner-list .v-list-item-title {
-  color: #ffffff;
-  font-size: 1.2rem;
+.project-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* 반응형 디자인 */
+/* 반응형 */
 @media (max-width: 768px) {
-  .section-title {
-    font-size: 2.5rem;
-  }
-
-  .section-subtitle {
-    font-size: 1.2rem;
-  }
-
   .section-heading {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
-  .project-table th,
-  .project-table td {
-    font-size: 1rem;
-    padding: 0.8rem;
+  .project-table {
+    min-width: 100%;
+  }
+
+  .history-card {
+    width: 100%;
+    max-width: 90%;
   }
 }
 </style>

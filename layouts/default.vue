@@ -6,18 +6,15 @@
 
     <v-main class="main">
       <slot />
+      <Footer />
     </v-main>
-
-    <Footer />
   </div>
   <Cursur />
 </template>
 
 <style scoped>
 .default-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   background-color: var(--main-bg);
 }
 
@@ -30,8 +27,7 @@
   transition: transform 0.3s ease-in-out;
 }
 
-/* 숨길 때 적용 */
-.hidden-nav {
-  transform: translateY(-100%);
+.main {
+  padding-top: 60px;
 }
 </style>
