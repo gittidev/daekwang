@@ -48,6 +48,6 @@ export default defineNuxtConfig({
   },
 
   plugins: [],
-  css: ["~/assets/css/theme.css", "~/assets/css/global.css"],
+  css: ["~/assets/css/global.css"],
   compatibilityDate: "2025-02-24",
 });

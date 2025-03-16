@@ -125,23 +125,6 @@ const partnerCompanies = [
         </v-col>
       </v-row>
     </v-container>
-
-    <!-- 협력 회사 섹션 -->
-    <v-container class="partners-section">
-      <h2 class="section-heading">협력 중장비 회사</h2>
-      <v-row justify="center">
-        <v-col cols="12" md="6">
-          <v-list class="partner-list">
-            <v-list-item
-              v-for="(partner, index) in partnerCompanies"
-              :key="index"
-            >
-              <v-list-item-title>{{ partner }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-col>
-      </v-row>
-    </v-container>
   </div>
 </template>
 
@@ -149,21 +132,29 @@ const partnerCompanies = [
 /* 전체 페이지 래퍼 */
 .page-wrapper {
   background-color: #0f172a; /* 어두운 남색 */
-  color: #ffffff; /* 흰색 */
-  overflow-y: auto; /* 단일 수직 스크롤 */
+  color: #ffffff;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory; /* 수직 스냅 스크롤 */
+  -webkit-overflow-scrolling: touch; /* 모바일에서 부드러운 스크롤 */
 }
 
-/* 공통 섹션 스타일 */
+/* 개별 섹션 */
 .intro-section,
 .history-section,
 .cases-section,
-.certifications-section,
-.partners-section {
-  min-height: 100vh;
+.certifications-section {
+  scroll-snap-align: start;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 4rem 2rem;
+}
+
+/* 부드러운 스크롤 */
+html {
+  scroll-behavior: smooth;
 }
 
 /* 섹션 제목 */

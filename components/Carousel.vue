@@ -94,7 +94,7 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
 .carousel-container {
   display: flex;
   overflow-x: scroll;

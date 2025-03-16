@@ -13,13 +13,13 @@ const menuOpen = ref(false);
 
 <template>
   <header
-    class="fixed top-0 w-full glassmorphism px-6 py-4 flex justify-between items-center z-50"
+    class="fixed h-16 top-0 w-full glassmorphism px-6 py-4 flex justify-between items-center z-50"
   >
     <div class="flex items-center">
       <NuxtLink to="/">
-        <img src="/logo.svg" alt="Logo" class="h-10" />
+        <img src="/logo.svg" alt="Logo" class="h-4" />
       </NuxtLink>
-      <h1 class="text-2xl font-bold text-white ml-4">대광 PC</h1>
+      <h1 class="font-bold text-white ml-4">대광 PC</h1>
     </div>
 
     <!-- 데스크탑 메뉴 -->

@@ -10,6 +10,31 @@
   font-style: normal;
 }
 
+/* Tailwind의 darkMode를 활용하여 글로벌 테마 스타일 적용 */
+:root {
+  --primary-color: rgb(255, 255, 255);
+  --secondary-color: #6b7280;
+  --accent-color: #d1d5db;
+  --main-color: #0f172a;
+  --main-bg: linear-gradient(135deg, rgb(64, 102, 192) 0%, #1e2a44 100%);
+  --sub-bg: rgba(15, 23, 42, 0.4);
+  --main-font-color: rgb(255, 255, 255);
+  --footer-bg: #0f172a;
+  --shadow-color: rgba(0, 0, 0, 0.7);
+  --border-color: rgba(107, 114, 128, 0.2);
+  --text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.dark {
+  --primary-color: #d1d5db;
+  --secondary-color: #6b7280;
+  --accent-color: #9ca3af;
+  --main-color: #1e2a44;
+  --main-bg: linear-gradient(135deg, #1e2a44 0%, #0f172a 100%);
+  --footer-bg: #1e2a44;
+}
+
+/* 기본 리셋 */
 *,
 *::before,
 *::after {
@@ -20,8 +45,10 @@
 
 body {
   font-family: "Pretendard-Regular", sans-serif;
+  @apply bg-[var(--main-bg)] text-[var(--primary-color)];
 }
 
+/* Glassmorphism 효과 */
 .glassmorphism {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(4.5px);
