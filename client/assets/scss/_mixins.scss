@@ -1,0 +1,23 @@
+// 텍스트 색상: --text-primary 같은 root 변수 기반으로 적용
+@mixin text-color($key) {
+  color: var(--text-#{$key});
+}
+
+// 배경 색상: --background-muted 등
+@mixin background($key) {
+  background-color: var(--background-#{$key});
+}
+
+// 보더 색상
+@mixin border-color($key) {
+  border-color: var(--#{$key}-color);
+}
+
+// 상태 색상 (성공/에러/경고/정보)
+@mixin state-color($type) {
+  color: var(--#{$type}-color);
+}
+
+@mixin state-background($type) {
+  background-color: var(--#{$type}-color);
+}

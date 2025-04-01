@@ -1,0 +1,101 @@
+@use "./variables" as *;
+@use "./mixins" as *;
+@use "sass:map";
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4.5px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  display: inline-block;
+  padding: spacing(1) spacing(2);
+  font-weight: 600;
+  border-radius: 9999px;
+  background-color: var(--accent-color);
+  color: white;
+  font-size: map.get($font-sizes, xs);
+}
+
+.badge-outline {
+  display: inline-block;
+  padding: spacing(1) spacing(2);
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  background-color: transparent;
+  font-size: map.get($font-sizes, xs);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: spacing(1) spacing(2);
+  background-color: var(--background-muted);
+  color: var(--text-primary);
+  border-radius: 9999px;
+  font-size: map.get($font-sizes, sm);
+}
+
+.skeleton {
+  display: inline-block;
+  background-color: var(--background-muted);
+  border-radius: 0.25rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.section-title {
+  font-size: map.get($font-sizes, 2xl);
+  font-weight: bold;
+  margin-bottom: spacing(4);
+  @include text-color(primary);
+}
+
+.card {
+  padding: spacing(4);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px var(--shadow-color);
+  @include background(soft);
+  @include text-color(primary);
+}
+
+.button-success {
+  padding: spacing(3) spacing(5);
+  border-radius: 0.375rem;
+  font-size: map.get($font-sizes, base);
+  @include state-background(success);
+  @include text-color(primary);
+}
+
+.text-error {
+  font-weight: bold;
+  font-size: map.get($font-sizes, sm);
+  @include state-color(error);
+}

@@ -1,0 +1,53 @@
+:root {
+  --primary-color: #1f2937;
+  --secondary-color: #6b7280;
+  --accent-color: #c084fc;
+
+  --success-color: #10b981; /* 초록 */
+  --warning-color: #f59e0b; /* 노랑 */
+  --error-color: #ef4444; /* 빨강 */
+  --info-color: #3b82f6; /* 파랑 */
+
+  --background-soft: #f0f0f0;
+  --background-light: #ffffff;
+  --background-muted: #f9fafb;
+  --background-soft: #f3e8ff;
+
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+
+  --border-color: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  --main-bg: linear-gradient(180deg, #fefce8 0%, #f3e8ff 100%);
+  --footer-bg: #ede9fe;
+}
+
+.dark {
+  --primary-color: #e5e7eb;
+  --secondary-color: #9ca3af;
+  --accent-color: #a78bfa;
+
+  --success-color: #34d399;
+  --warning-color: #fbbf24;
+  --error-color: #f87171;
+  --info-color: #60a5fa;
+
+  --background-soft: #f0f0f0;
+  --background-light: #18181b;
+  --background-muted: #1f1f1f;
+  --background-soft: #2c2c2c;
+
+  --text-primary: #f3f4f6;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+
+  --border-color: rgba(255, 255, 255, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+
+  --main-bg: linear-gradient(180deg, #1f1f1f 0%, #2c2c2c 100%);
+  --footer-bg: #27272a;
+}

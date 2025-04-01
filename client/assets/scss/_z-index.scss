@@ -1,0 +1,23 @@
+// ✅ assets/scss/z-index.scss
+
+$z-layers: (
+  background: 0,
+  base: 1,
+  surface: 10,
+  nav: 20,
+  card: 25,
+  dropdown: 30,
+  tooltip: 40,
+  overlay: 50,
+  modal: 60,
+  toast: 70,
+  devtools: 100,
+);
+
+@function z($name) {
+  $value: map.get($z-layers, $name);
+  @if $value == null {
+    @error "🚨 '#{$name}' is not defined in \$z-layers.";
+  }
+  @return $value;
+}

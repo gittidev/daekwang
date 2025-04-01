@@ -1,10 +1,17 @@
-# Nuxt dev/build outputs
-.output
-.data
-.nuxt
-.nitro
-.cache
-dist
+# Nuxt (프론트엔드)
+clent/.nuxt/
+clent/.output/
+clent/node_modules/
+clent/.env
+clent/.data
+clent/.nitro
+clent/.cache
+clent/dist
+
+# Python (백엔드)
+server/__pycache__/
+server/venv/
+server/.env
 
 # Node dependencies
 node_modules
