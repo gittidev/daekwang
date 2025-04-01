@@ -58,6 +58,11 @@ tests/ # 단위 테스트
 
 ## ⚙️ 실행 방법
 
+```
+운영용 (SSR 배포)	docker-compose up --build
+개발용 (Hot Reload)	docker-compose -f docker-compose.dev.yml up --build
+```
+
 ### 🔹 백엔드 (FastAPI)
 
 ```bash
