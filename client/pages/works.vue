@@ -1,117 +1,127 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, computed } from "vue";
+import ConstructionCard from "~/components/ConstructionCard.vue";
+import { useAsyncData } from "#app";
+import type {
+  ConstructionPublicResponse,
+  ConstructionAdminResponse,
+} from "~/types/construction";
 
-// caseStudies의 타입 정의
-interface CaseStudy {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  image: string;
-}
+const isAdmin = ref(true);
 
-const caseStudies = ref<CaseStudy[]>([
-  {
-    id: 1,
-    title: "Modern Office Renovation",
-    description: "Complete office space transformation",
-    date: " 2024-03",
-    image: "/img/1.png",
-  },
-  {
-    id: 2,
-    title: "Residential Complex",
-    description: "Luxury apartment building",
-    date: " 2024-03",
-    image: "/img/2.png",
-  },
-  {
-    id: 3,
-    title: "Commercial Plaza",
-    description: "Shopping center construction",
-    date: " 2024-03",
-    image: "/img/3.png",
-  },
-  {
-    id: 4,
-    title: "Commercial Plaza",
-    description: "Shopping center construction",
-    date: " 2024-03",
-    image: "/img/3.png",
-  },
-  {
-    id: 5,
-    title: "Commercial Plaza",
-    description: "Shopping center construction",
-    date: " 2024-03",
-    image: "/img/3.png",
-  },
-  {
-    id: 6,
-    title: "Commercial Plaza",
-    description: "Shopping center construction",
-    date: " 2024-03",
-    image: "/img/3.png",
-  },
-  {
-    id: 7,
-    title: "Commercial Plaza",
-    description: "Shopping center construction",
-    date: " 2024-03",
-    image: "/img/3.png",
-  },
-  {
-    id: 8,
-    title: "Commercial Plaza",
-    description: "Shopping center construction",
-    date: " 2024-03",
-    image: "/img/3.png",
-  },
-]);
+const {
+  data: constructions,
+  pending: isLoading,
+  error,
+} = await useAsyncData<
+  ConstructionPublicResponse[] | ConstructionAdminResponse[]
+>("constructions", () => $fetch("/api/constructions"));
 
-const selectedCase = ref<CaseStudy | null>(null);
+const fallbackData: (ConstructionPublicResponse | ConstructionAdminResponse)[] =
+  [
+    {
+      id: 1,
+      place: "서울 강남구 논현동",
+      period: "2024.01 ~ 2024.03",
+      description: "지하 배수로 및 보강 공사",
+      is_published: true,
+      created_at: new Date().toISOString(),
+      thumbnail: "/img/1.png",
+      total_price: 120000000,
+    },
+    {
+      id: 2,
+      place: "광주 북구 매곡동",
+      period: "2023.11 ~ 2023.12",
+      description: "도심 하수관 교체 사업",
+      is_published: true,
+      created_at: new Date().toISOString(),
+      thumbnail: "/img/2.png",
+      total_price: 80000000,
+    },
+    {
+      id: 3,
+      place: "전남 목포시 산정동",
+      period: "2023.09 ~ 2023.10",
+      description: "주택가 암거 설치",
+      is_published: true,
+      created_at: new Date().toISOString(),
+      thumbnail: "/img/3.png",
+      total_price: 50000000,
+    },
+  ];
+
+const displayedConstructions = computed(() => {
+  return constructions.value?.length ? constructions.value : fallbackData;
+});
+
+const selectedConstruction = ref<
+  ConstructionPublicResponse | ConstructionAdminResponse | null
+>(null);
 const showPopup = ref(false);
-
-const openPopup = (caseStudy: CaseStudy) => {
-  selectedCase.value = { ...caseStudy };
+const openPopup = (
+  item: ConstructionPublicResponse | ConstructionAdminResponse
+) => {
+  selectedConstruction.value = item;
   showPopup.value = true;
 };
-
 const closePopup = () => {
   showPopup.value = false;
-  selectedCase.value = null;
 };
+
+onMounted(() => {
+  const fadeEls = document.querySelectorAll(".fade-up");
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+        } else {
+          entry.target.classList.remove("in-view");
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+  fadeEls.forEach((el) => observer.observe(el));
+});
 </script>
 
 <template>
-  <div class="container">
-    <div class="case-content">
-      <h1>시공 사례</h1>
-      <div class="case-grid">
-        <div
-          v-for="item in caseStudies"
+  <div class="works-page">
+    <section class="projects fade-up section-muted">
+      <h2 class="projects-title">시공 사례</h2>
+      <div class="projects-grid">
+        <ConstructionCard
+          v-for="item in displayedConstructions"
           :key="item.id"
-          class="case-card"
+          :place="item.place"
+          :period="item.period"
+          :description="item.description"
+          :thumbnail="item.thumbnail || '/img/placeholder.png'"
+          :totalPrice="isAdmin ? item.total_price : undefined"
+          :isAdmin="isAdmin"
           @click="openPopup(item)"
-        >
-          <div class="card-image">
-            <NuxtImg class="image-placeholder" :src="item.image" />
-          </div>
-          <div class="card-content">
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.description }}</p>
-          </div>
-        </div>
+        />
       </div>
+    </section>
 
-      <div v-if="showPopup" class="modal-overlay" @click="closePopup">
-        <div class="modal-content" @click.stop>
-          <button class="close-btn" @click="closePopup">×</button>
-          <h2>{{ selectedCase?.title }}</h2>
-          <div class="modal-image">
-            <NuxtImg class="image-placeholder" :src="selectedCase?.image" />
-          </div>
-          <p>{{ selectedCase?.description }}</p>
+    <div v-if="showPopup" class="modal-overlay" @click.self="closePopup">
+      <div class="modal-content">
+        <button class="close-btn" @click="closePopup">×</button>
+        <h2>{{ selectedConstruction?.place }}</h2>
+        <img
+          :src="selectedConstruction?.thumbnail || '/img/placeholder.png'"
+          alt="thumbnail"
+          class="modal-image"
+        />
+        <p>{{ selectedConstruction?.description }}</p>
+        <p>{{ selectedConstruction?.period }}</p>
+        <p v-if="isAdmin">
+          💰 {{ selectedConstruction?.total_price?.toLocaleString() }}원
+        </p>
+        <div v-if="isAdmin">
+          <button class="edit-btn">수정하기</button>
         </div>
       </div>
     </div>
@@ -119,77 +129,24 @@ const closePopup = () => {
 </template>
 
 <style scoped>
-.container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 2rem;
-  background: var(--main-bg);
+.works-page {
+  padding: 4rem 2rem;
+  background: var(--background-base);
+  color: var(--text-primary);
   min-height: 100vh;
-  color: var(--main-font-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.case-content {
-  max-width: 80%;
-  width: 100%;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
+.projects-title {
   text-align: center;
-  margin: 2rem 0;
-  color: var(--primary-color);
-  text-shadow: var(--text-shadow);
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
 }
 
-.case-grid {
+.projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
-  padding: 1rem;
-}
-
-.case-card {
-  background-color: var(--main-color);
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-color) 0px 4px 12px;
-}
-
-.case-card:hover {
-  transform: translateY(-5px);
-}
-
-.card-image {
-  width: 100%;
-  height: 200px;
-}
-
-.image-placeholder {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 이미지 비율 유지하며 채우기 */
-}
-
-.card-content {
-  padding: 1rem;
-}
-
-h3 {
-  margin: 0 0 0.5rem 0;
-  color: var(--primary-color);
-}
-
-p {
-  margin: 0;
-  color: var(--accent-color);
 }
 
 .modal-overlay {
@@ -198,57 +155,47 @@ p {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--shadow-color);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 999;
 }
 
 .modal-content {
-  background-color: var(--main-color);
+  background: var(--background-light);
   padding: 2rem;
-  border-radius: 8px;
-  position: relative;
-  max-width: 500px;
+  border-radius: 12px;
   width: 90%;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-color) 0px 4px 12px;
+  max-width: 500px;
+  position: relative;
+}
+
+.modal-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
 }
 
 .close-btn {
   position: absolute;
   top: 10px;
   right: 10px;
+  background: transparent;
   border: none;
-  background: none;
-  font-size: 24px;
-  color: var(--primary-color);
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
-.modal-image {
-  width: 100%;
-  height: 300px;
-  margin: 1rem 0;
-}
-
-h2 {
-  color: var(--primary-color);
-  margin-top: 0;
-}
-
-@media (prefers-color-scheme: dark) {
-  .container {
-    background: var(--main-bg);
-  }
-
-  .case-card {
-    background-color: var(--main-color);
-  }
-
-  .modal-content {
-    background-color: var(--main-color);
-  }
+.edit-btn {
+  margin-top: 1rem;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
 }
 </style>

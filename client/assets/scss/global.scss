@@ -2,12 +2,19 @@
 @use "./mixins.scss" as *;
 @use "./_variables" as *;
 @use "./_font" as *;
-@use "./_reset" as *;
 @use "./_theme" as *;
 @use "./_base" as *;
 @use "./_mixins" as *;
 @use "./_utilities" as *;
-// 레이어 예시 스타일들
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .background-canvas {
   position: fixed;
   top: 0;

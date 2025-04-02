@@ -13,7 +13,7 @@ const updateCursor = (e: MouseEvent) => {
 
 const onMouseEnter = () => {
   cursorScale.value = 2;
-  cursorColor.value = "#00DC82";
+  cursorColor.value = "#00ffea";
 };
 
 const onMouseLeave = () => {
