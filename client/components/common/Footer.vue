@@ -52,6 +52,7 @@ onMounted(() => {
           <div>
             <p><strong>전화:</strong> 010-2684-6408</p>
             <p><strong>이메일:</strong> pyw4733@hanmail.net</p>
+            <p><strong>사업자 등록번호:</strong> 411-10-82273</p>
             <p><strong>팩스:</strong> 062-961-6408</p>
             <p><strong>주소:</strong> 광주광역시 광산구 사암로 340번길 30</p>
           </div>
@@ -70,52 +71,66 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 0;
-  background: var(--background-muted); /* ✅ 통일된 배경 색상 */
+  padding: 3rem 1rem;
+  background: var(--background-muted);
   color: var(--text-primary);
 }
-
 .contact-container {
-  width: 90%;
-  max-width: 1000px;
+  width: 100%;
+  max-width: 1200px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 2rem;
+  align-items: flex-start;
+  gap: 2.5rem;
+  padding: 2rem 1rem;
   border-top: 1px solid var(--border-color);
 }
 
 .logo {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
+  flex-shrink: 0;
 }
 
 .logo h1 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
-  color: var(--accent-color); /* ✅ 포인트 색상 */
+  color: var(--accent-color);
+  white-space: nowrap;
 }
 
 .contact-wrapper {
   flex: 1;
-  min-width: 250px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .contact-title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 1rem;
-  color: var(--text-primary); /* ✅ 강조 제목 */
+  color: var(--text-primary);
 }
 
 .contact-content {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 2rem;
+  flex-wrap: wrap;
   font-size: 1rem;
-  color: var(--text-secondary); /* ✅ 일반 텍스트 */
-  align-items: center;
+  color: var(--text-secondary);
+}
+
+.contact-content > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 220px;
 }
 
 .map {
@@ -123,17 +138,18 @@ onMounted(() => {
   height: 250px;
   border-radius: 10px;
   border: 1px solid var(--border-color);
-  background: var(--background-soft); /* ✅ 지도 영역 배경 */
+  background: var(--background-soft);
 }
 
+/* 하단 */
 .license {
-  margin-top: 1rem;
+  margin-top: 2rem;
   font-size: 0.9rem;
   color: var(--text-muted, var(--text-secondary));
   text-align: center;
 }
 
-/* 반응형 */
+/* ✅ 반응형 */
 @media (max-width: 768px) {
   .contact-container {
     flex-direction: column;
@@ -141,8 +157,14 @@ onMounted(() => {
     text-align: center;
   }
 
+  .logo {
+    flex-direction: column;
+    justify-content: center;
+  }
+
   .contact-content {
     flex-direction: column;
+    align-items: center;
     gap: 1.5rem;
   }
 

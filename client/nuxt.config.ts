@@ -43,6 +43,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@tresjs/nuxt",
     "@nuxt/devtools",
+    "@vueuse/nuxt",
   ],
 
   plugins: [],

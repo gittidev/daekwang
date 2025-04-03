@@ -10,6 +10,6 @@ watch(isDark, (val) => {
 
 <template>
   <v-btn @click="isDark = !isDark">
-    다크모드 {{ isDark ? "해제" : "적용" }}
+    {{ isDark ? "☀️" : "🌕" }}
   </v-btn>
 </template>

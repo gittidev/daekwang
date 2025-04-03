@@ -3,8 +3,10 @@ import type { DefineComponent, SlotsType } from 'vue'
 type IslandComponent<T extends DefineComponent> = T & DefineComponent<{}, {refresh: () => Promise<void>}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, SlotsType<{ fallback: { error: unknown } }>>
 interface _GlobalComponents {
       'AppAlert': typeof import("../components/AppAlert.vue")['default']
+    'BackgroundPaths': typeof import("../components/BackgroundPaths.vue")['default']
     'ConstructionCard': typeof import("../components/ConstructionCard.vue")['default']
     'Cursur': typeof import("../components/Cursur.vue")['default']
+    'FloatingPaths': typeof import("../components/FloatingPaths.vue")['default']
     'ShaderBackground': typeof import("../components/ShaderBackground.client.vue")['default']
     'CommonFooter': typeof import("../components/common/Footer.vue")['default']
     'CommonNavbar': typeof import("../components/common/Navbar.vue")['default']
@@ -110,8 +112,10 @@ interface _GlobalComponents {
     'ShaderBackground': IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
     'NuxtRouteAnnouncer': IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
       'LazyAppAlert': typeof import("../components/AppAlert.vue")['default']
+    'LazyBackgroundPaths': typeof import("../components/BackgroundPaths.vue")['default']
     'LazyConstructionCard': typeof import("../components/ConstructionCard.vue")['default']
     'LazyCursur': typeof import("../components/Cursur.vue")['default']
+    'LazyFloatingPaths': typeof import("../components/FloatingPaths.vue")['default']
     'LazyShaderBackground': typeof import("../components/ShaderBackground.client.vue")['default']
     'LazyCommonFooter': typeof import("../components/common/Footer.vue")['default']
     'LazyCommonNavbar': typeof import("../components/common/Navbar.vue")['default']
@@ -223,8 +227,10 @@ declare module 'vue' {
 }
 
 export const AppAlert: typeof import("../components/AppAlert.vue")['default']
+export const BackgroundPaths: typeof import("../components/BackgroundPaths.vue")['default']
 export const ConstructionCard: typeof import("../components/ConstructionCard.vue")['default']
 export const Cursur: typeof import("../components/Cursur.vue")['default']
+export const FloatingPaths: typeof import("../components/FloatingPaths.vue")['default']
 export const ShaderBackground: typeof import("../components/ShaderBackground.client.vue")['default']
 export const CommonFooter: typeof import("../components/common/Footer.vue")['default']
 export const CommonNavbar: typeof import("../components/common/Navbar.vue")['default']
@@ -330,8 +336,10 @@ export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components
 export const ShaderBackground: IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
 export const NuxtRouteAnnouncer: IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
 export const LazyAppAlert: typeof import("../components/AppAlert.vue")['default']
+export const LazyBackgroundPaths: typeof import("../components/BackgroundPaths.vue")['default']
 export const LazyConstructionCard: typeof import("../components/ConstructionCard.vue")['default']
 export const LazyCursur: typeof import("../components/Cursur.vue")['default']
+export const LazyFloatingPaths: typeof import("../components/FloatingPaths.vue")['default']
 export const LazyShaderBackground: typeof import("../components/ShaderBackground.client.vue")['default']
 export const LazyCommonFooter: typeof import("../components/common/Footer.vue")['default']
 export const LazyCommonNavbar: typeof import("../components/common/Navbar.vue")['default']

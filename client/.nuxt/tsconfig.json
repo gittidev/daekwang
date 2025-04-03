@@ -166,6 +166,8 @@
     "../node_modules/@tresjs/nuxt/dist/runtime",
     "../node_modules/@nuxt/devtools/runtime",
     "../node_modules/@nuxt/devtools/dist/runtime",
+    "../node_modules/@vueuse/nuxt/runtime",
+    "../node_modules/@vueuse/nuxt/dist/runtime",
     "../node_modules/@nuxt/telemetry/runtime",
     "../node_modules/@nuxt/telemetry/dist/runtime",
     ".."
@@ -182,6 +184,7 @@
     "../node_modules/@nuxtjs/tailwindcss/node_modules",
     "../node_modules/@tresjs/nuxt/node_modules",
     "../node_modules/@nuxt/devtools/node_modules",
+    "../node_modules/@vueuse/nuxt/node_modules",
     "../node_modules/@nuxt/telemetry/node_modules",
     "../node_modules/vuetify-nuxt-module/runtime/server",
     "../node_modules/vuetify-nuxt-module/dist/runtime/server",
@@ -197,6 +200,8 @@
     "../node_modules/@tresjs/nuxt/dist/runtime/server",
     "../node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@nuxt/devtools/dist/runtime/server",
+    "../node_modules/@vueuse/nuxt/runtime/server",
+    "../node_modules/@vueuse/nuxt/dist/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",
     "../node_modules/@nuxt/telemetry/dist/runtime/server",
     "../.output"

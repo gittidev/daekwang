@@ -1,16 +1,25 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import BackgroundPaths from "@/components/BackgroundPaths.vue";
 
+const sections = ["intro", "history", "projects"];
+const labels = ["소개", "연혁", "시공 사례"];
 const projects = [
   {
     image: "/img/main1.png",
-    title: "광주 상업 지구 프로젝트",
-    date: "2023년 5월",
+    title: "영광 중점관리지역 시공",
+    date: "2024년 ~ 진행중",
   },
   {
     image: "/img/main2.png",
-    title: "서울 주거 단지 시공",
+    title: "장성 주거 단지 시공",
     date: "2022년 11월",
+  },
+  { image: "/img/main3.png", title: "담양 공공 건축물", date: "2021년 8월" },
+  {
+    image: "/img/main4.png",
+    title: "해수소통로",
+    date: "2024년 1월",
   },
   { image: "/img/main3.png", title: "부산 공공 건축물", date: "2021년 8월" },
   { image: "/img/main4.png", title: "인천 산업 단지", date: "2024년 1월" },
@@ -19,30 +28,74 @@ const projects = [
 const history = [
   { year: "1994", event: "대광 PC 설립" },
   { year: "2017", event: "광주 하남3지구 오수관로 설치" },
-  { year: "2025", event: "영광 중점관리지역 PC 암거설치 및 친환경 인증 획득" },
+  { year: "2025", event: "영광 중점관리지역 PC 암거설치" },
+  { year: "2025", event: "영광 중점관리지역 PC 암거설치" },
 ];
 
+const currentSection = ref(0);
+const indicatorY = ref(0);
+
+function scrollTo(index: number) {
+  const el = document.getElementById(sections[index]);
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+}
+
 onMounted(() => {
-  const fadeEls = document.querySelectorAll(".fade-up");
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-        } else {
-          entry.target.classList.remove("in-view");
+          const id = entry.target.id;
+          const index = sections.findIndex((s) => s === id);
+          if (index !== -1) {
+            currentSection.value = index;
+
+            const rect = entry.target.getBoundingClientRect();
+            indicatorY.value = rect.height / 2 - 12;
+          }
         }
       });
     },
-    { threshold: 0.2 }
+    { threshold: 0.5 }
   );
-  fadeEls.forEach((el) => observer.observe(el));
+
+  sections.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
 });
 </script>
 
 <template>
-  <div class="index-page">
-    <section class="scene-wrapper fade-up section-dark">
+  <div class="index-page relative">
+    <!-- 백그라운드 -->
+    <section id="paths" class="scene-paths">
+      <BackgroundPaths />
+    </section>
+
+    <!-- ✅ 항상 표시되는 인디케이터 -->
+    <div
+      class="section-indicator fixed left-6 z-50 top-1/2 -translate-y-1/2 transition-transform duration-300"
+    >
+      <ul class="flex flex-col gap-4">
+        <li v-for="(label, i) in labels" :key="i">
+          <button
+            class="text-xl font-bold px-4 py-2 rounded-lg transition-all duration-300"
+            :class="
+              currentSection === i
+                ? 'bg-black text-white'
+                : 'bg-gray-200 text-gray-600'
+            "
+            @click="scrollTo(i)"
+          >
+            {{ label }}
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 섹션 내용 -->
+    <section id="intro" class="scene-wrapper section-dark">
       <div class="scene-overlay">
         <div class="flex">
           <img src="/logo.svg" alt="로고" class="logo mr-2" />
@@ -52,7 +105,7 @@ onMounted(() => {
       </div>
     </section>
 
-    <section class="history-section fade-up section-light">
+    <section id="history" class="history-section section-light">
       <h2 class="section-heading">🏗️ 주요 이력</h2>
       <ul class="history-list">
         <li v-for="item in history" :key="item.year" class="history-item">
@@ -62,7 +115,7 @@ onMounted(() => {
       </ul>
     </section>
 
-    <section class="projects fade-up section-muted">
+    <section id="projects" class="projects section-muted">
       <h2 class="projects-title">시공 사례</h2>
       <div class="projects-grid">
         <div
@@ -86,12 +139,39 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.scene-paths {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 0;
+}
+
 .index-page {
   background: var(--background-base);
   color: var(--text-primary);
   scroll-behavior: smooth;
 }
 
+.logo {
+  width: 90px;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 5rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
+}
+
+.subtitle {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  text-align: center;
+}
 .section-dark {
   background-color: #0f172a;
   color: #f8fafc;
@@ -123,23 +203,6 @@ onMounted(() => {
 .scene-overlay {
   text-align: center;
   z-index: 2;
-}
-
-.logo {
-  width: 60px;
-  margin-bottom: 1rem;
-}
-
-.fade-up {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.in-view {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  transition-delay: 0.2s;
 }
 
 .section-heading {
@@ -226,31 +289,5 @@ onMounted(() => {
   font-size: 0.9rem;
   color: var(--text-secondary);
   margin-top: 0.5rem;
-}
-
-.title {
-  font-size: 3rem;
-  font-weight: bold;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  margin-top: 1rem;
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  .title {
-    font-size: 2rem;
-  }
-  .subtitle {
-    font-size: 1rem;
-  }
-  .projects-title {
-    font-size: 1.5rem;
-  }
 }
 </style>
