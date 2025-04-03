@@ -28,7 +28,7 @@ const navigate = (to: string) => {
         <NuxtLink to="/">
           <img src="/logo.svg" alt="Logo" style="height: 20px" />
         </NuxtLink>
-        <h1 class="ml-3 text-subtitle-2 font-weight-bold text-orange-accent-4">
+        <h1 class="ml-3 text-xl font-weight-bold text-orange-accent-4">
           대광PC
         </h1>
       </div>

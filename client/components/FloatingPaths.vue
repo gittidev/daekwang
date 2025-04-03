@@ -87,6 +87,7 @@ function setLines() {
         y: yStart + props.yGap * j,
         wave: { x: 0, y: 0 },
         cursor: { x: 0, y: 0, vx: 0, vy: 0 },
+        depth: 0,
       });
     }
     linesRef.value.push(pts);
@@ -167,6 +168,15 @@ function drawLines() {
     let p1 = moved(points[0], false);
     ctx.moveTo(p1.x, p1.y);
     points.forEach((p, idx) => {
+      if (p.depth < -5) {
+        ctx.shadowColor = "rgba(0,0,0,0.15)";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetY = 3;
+      } else {
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetY = 0;
+      }
       const isLast = idx === points.length - 1;
       p1 = moved(p, !isLast);
       const p2 = moved(points[idx + 1] || points[points.length - 1], !isLast);
@@ -180,7 +190,7 @@ function drawLines() {
 
 function moved(p: any, withCursor = true) {
   const x = p.x + p.wave.x + (withCursor ? p.cursor.x : 0);
-  const y = p.y + p.wave.y + (withCursor ? p.cursor.y : 0);
+  const y = p.y + p.wave.y + (withCursor ? p.cursor.y : 0) + p.depth;
   return { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 };
 }
 
@@ -199,6 +209,13 @@ function tick(time: number) {
   m.ly = m.y;
   m.a = Math.atan2(dy, dx);
 
+  // 👇 깊이 복원 로직 추가
+  linesRef.value.forEach((line) => {
+    line.forEach((p) => {
+      p.depth += (0 - p.depth) * 0.05; // easing 복원
+    });
+  });
+
   movePoints(time);
   drawLines();
   animationFrame = requestAnimationFrame(tick);
@@ -214,11 +231,32 @@ onMounted(() => {
 
   window.addEventListener("resize", setSize);
   window.addEventListener("mousemove", (e) => updateMouse(e.pageX, e.pageY));
+
+  window.addEventListener("click", (e) => {
+    updateMouse(e.pageX, e.pageY);
+
+    const { sx, sy } = mouseRef.value;
+
+    linesRef.value.forEach((line) => {
+      line.forEach((p) => {
+        const dx = p.x - sx;
+        const dy = p.y - sy;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 150) {
+          const impact = 1 - dist / 150;
+          p.depth = -40 * impact;
+        }
+      });
+    });
+  });
 });
 
 onUnmounted(() => {
   cancelAnimationFrame(animationFrame);
   window.removeEventListener("resize", setSize);
   window.removeEventListener("mousemove", (e) => updateMouse(e.pageX, e.pageY));
+  window.removeEventListener("click", (e) => {
+    updateMouse(e.pageX, e.pageY);
+  });
 });
 </script>

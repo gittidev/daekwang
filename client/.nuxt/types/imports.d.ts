@@ -46,6 +46,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effect: typeof import('vue')['effect']
   const effectScope: typeof import('vue')['effectScope']
+  const exportToPDF: typeof import('../../node_modules/@sidebase/nuxt-pdf/dist/runtime/composables/exportToPDF')['default']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const extendTres: typeof import('../../node_modules/@tresjs/core')['extend']
   const extractBindingPosition: typeof import('@tresjs/cientos')['extractBindingPosition']
@@ -56,6 +57,7 @@ declare global {
   const h: typeof import('vue')['h']
   const hasInjectionContext: typeof import('vue')['hasInjectionContext']
   const hasSetter: typeof import('@tresjs/cientos')['hasSetter']
+  const htmlToPDF: typeof import('../../node_modules/@sidebase/nuxt-pdf/dist/runtime/composables/htmlToPDF')['default']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const inject: typeof import('vue')['inject']
   const injectHead: typeof import('../../node_modules/@unhead/vue')['injectHead']
@@ -161,6 +163,8 @@ declare global {
   const updateAppConfig: typeof import('../../node_modules/nuxt/dist/app/config')['updateAppConfig']
   const useAbs: typeof import('../../node_modules/@vueuse/math')['useAbs']
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
+  const useAdminAuth: typeof import('../../composables/useAdminAuth')['useAdminAuth']
+  const useAdminToken: typeof import('../../composables/useAdminToken')['useAdminToken']
   const useAnimate: typeof import('@vueuse/core')['useAnimate']
   const useAnimations: typeof import('@tresjs/cientos')['useAnimations']
   const useAppConfig: typeof import('../../node_modules/nuxt/dist/app/config')['useAppConfig']
@@ -510,6 +514,7 @@ declare module 'vue' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effect: UnwrapRef<typeof import('vue')['effect']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly exportToPDF: UnwrapRef<typeof import('../../node_modules/@sidebase/nuxt-pdf/dist/runtime/composables/exportToPDF')['default']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly extendTres: UnwrapRef<typeof import('../../node_modules/@tresjs/core')['extend']>
     readonly extractBindingPosition: UnwrapRef<typeof import('@tresjs/cientos')['extractBindingPosition']>
@@ -520,6 +525,7 @@ declare module 'vue' {
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly hasInjectionContext: UnwrapRef<typeof import('vue')['hasInjectionContext']>
     readonly hasSetter: UnwrapRef<typeof import('@tresjs/cientos')['hasSetter']>
+    readonly htmlToPDF: UnwrapRef<typeof import('../../node_modules/@sidebase/nuxt-pdf/dist/runtime/composables/htmlToPDF')['default']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectHead: UnwrapRef<typeof import('../../node_modules/@unhead/vue')['injectHead']>
@@ -625,6 +631,8 @@ declare module 'vue' {
     readonly updateAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/config')['updateAppConfig']>
     readonly useAbs: UnwrapRef<typeof import('../../node_modules/@vueuse/math')['useAbs']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
+    readonly useAdminAuth: UnwrapRef<typeof import('../../composables/useAdminAuth')['useAdminAuth']>
+    readonly useAdminToken: UnwrapRef<typeof import('../../composables/useAdminToken')['useAdminToken']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
     readonly useAnimations: UnwrapRef<typeof import('@tresjs/cientos')['useAnimations']>
     readonly useAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/config')['useAppConfig']>

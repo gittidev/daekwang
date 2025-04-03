@@ -49,6 +49,66 @@ const fallbackData: (ConstructionPublicResponse | ConstructionAdminResponse)[] =
       thumbnail: "/img/3.png",
       total_price: 50000000,
     },
+    {
+      id: 4,
+      place: "전남 목포시 산정동",
+      period: "2023.09 ~ 2023.10",
+      description: "주택가 암거 설치",
+      is_published: true,
+      created_at: new Date().toISOString(),
+      thumbnail: "/img/3.png",
+      total_price: 50000000,
+    },
+    {
+      id: 5,
+      place: "전남 목포시 산정동",
+      period: "2023.09 ~ 2023.10",
+      description: "주택가 암거 설치",
+      is_published: true,
+      created_at: new Date().toISOString(),
+      thumbnail: "/img/3.png",
+      total_price: 50000000,
+    },
+    {
+      id: 6,
+      place: "전남 목포시 산정동",
+      period: "2023.09 ~ 2023.10",
+      description: "주택가 암거 설치",
+      is_published: true,
+      created_at: new Date().toISOString(),
+      thumbnail: "/img/3.png",
+      total_price: 50000000,
+    },
+    {
+      id: 6,
+      place: "전남 목포시 산정동",
+      period: "2023.09 ~ 2023.10",
+      description: "주택가 암거 설치",
+      is_published: true,
+      created_at: new Date().toISOString(),
+      thumbnail: "/img/3.png",
+      total_price: 50000000,
+    },
+    {
+      id: 6,
+      place: "전남 목포시 산정동",
+      period: "2023.09 ~ 2023.10",
+      description: "주택가 암거 설치",
+      is_published: true,
+      created_at: new Date().toISOString(),
+      thumbnail: "/img/3.png",
+      total_price: 50000000,
+    },
+    {
+      id: 6,
+      place: "전남 목포시 산정동",
+      period: "2023.09 ~ 2023.10",
+      description: "주택가 암거 설치",
+      is_published: true,
+      created_at: new Date().toISOString(),
+      thumbnail: "/img/3.png",
+      total_price: 50000000,
+    },
   ];
 
 const displayedConstructions = computed(() => {
@@ -130,10 +190,11 @@ onMounted(() => {
 
 <style scoped>
 .works-page {
-  padding: 4rem 2rem;
+  padding: 6rem;
   background: var(--background-base);
   color: var(--text-primary);
   min-height: 100vh;
+  width: 100%;
 }
 
 .projects-title {
@@ -145,8 +206,26 @@ onMounted(() => {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 0 auto;
+}
+@media (max-width: 1200px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .modal-overlay {

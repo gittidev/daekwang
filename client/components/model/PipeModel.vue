@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { useGLTF } from "@tresjs/cientos";
-import { TextureLoader } from "three";
-import { OrbitControls } from "@tresjs/cientos";
 import * as THREE from "three";
 
-const path = "/models/pipe.glb";
+const path = "/models/precast_concrete_box_texture.glb";
 const { scene } = await useGLTF(path, { draco: true });
-const texture = new TextureLoader().load("/texture/concreateTexture2.jpg");
+
 scene.traverse((child) => {
   if (child instanceof THREE.Mesh) {
     const materialName = child.material.name;
@@ -23,20 +21,18 @@ scene.traverse((child) => {
       child.material.color.set("#e4e4e4"); // 연한 회색
       child.material.roughness = 0.7;
     }
-    child.material.map = texture;
+
     child.material.needsUpdate = true;
   }
 });
 </script>
 
 <template>
-  <TresMesh>
-    <primitive
-      :object="scene"
-      :scale="[2, 2, 2]"
-      :position="[0, 0, 0]"
-      :rotation="[0, Math.PI / 2, 0]"
-    />
-    <TresMeshToonMaterial color="#82DBC5" />
-  </TresMesh>
+  <primitive
+    :object="scene"
+    :scale="[0.8, 1.8, 0.8]"
+    :position="[0, 0, 0]"
+    :rotation="[-Math.PI / 2, -Math.PI / 2, 0]"
+  >
+  </primitive>
 </template>

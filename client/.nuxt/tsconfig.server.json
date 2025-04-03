@@ -121,6 +121,12 @@
       ],
       "#vue-router": [
         "./vue-router"
+      ],
+      "#pdf": [
+        "../node_modules/@sidebase/nuxt-pdf/dist/runtime/server"
+      ],
+      "#pdf/*": [
+        "../node_modules/@sidebase/nuxt-pdf/dist/runtime/server/*"
       ]
     },
     "lib": [
@@ -139,6 +145,7 @@
     "../node_modules/@tresjs/nuxt/runtime/server",
     "../node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@vueuse/nuxt/runtime/server",
+    "../node_modules/@sidebase/nuxt-pdf/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",
     "./types/nitro.d.ts",
     "../**/*",
@@ -156,6 +163,7 @@
     "../node_modules/@tresjs/nuxt/node_modules",
     "../node_modules/@nuxt/devtools/node_modules",
     "../node_modules/@vueuse/nuxt/node_modules",
+    "../node_modules/@sidebase/nuxt-pdf/node_modules",
     "../node_modules/@nuxt/telemetry/node_modules",
     "../dist"
   ]

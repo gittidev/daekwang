@@ -1,4 +1,4 @@
-export interface ConstructionBase {
+export interface ConstructionResponse {
   id: number;
   place: string;
   period: string;

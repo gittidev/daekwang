@@ -31,6 +31,10 @@ export { computedAsync, asyncComputed, computedEager, eagerComputed, computedInj
 export { useElementStyle, useElementTransform, useMotion, useMotionProperties, useMotionVariants, useSpring } from '@vueuse/motion';
 export { createGenericProjection, createProjection, logicAnd, logicNot, logicOr, useAbs, useAverage, useCeil, useClamp, useFloor, useMath, useMax, useMin, usePrecision, useProjection, useRound, useSum, useTrunc } from '@vueuse/math';
 export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerSeoMeta, useServerHeadSafe } from '@unhead/vue';
+export { useAdminAuth } from '../composables/useAdminAuth';
+export { useAdminToken } from '../composables/useAdminToken';
+export { default as exportToPDF } from '../node_modules/@sidebase/nuxt-pdf/dist/runtime/composables/exportToPDF';
+export { default as htmlToPDF } from '../node_modules/@sidebase/nuxt-pdf/dist/runtime/composables/htmlToPDF';
 export { useDate, useLocale, useDefaults, useDisplay, useLayout, useRtl, useTheme, useGoTo } from 'vuetify';
 export { useImage } from '../node_modules/@nuxt/image/dist/runtime/composables';
 export { useCamera, useLoader, useLogger, useLoop, useRaycaster, useRenderLoop, useRenderer, useSeek, useTexture, useTres, useTresContext, useTresContextProvider, useTresEventManager, extend as extendTres, TresObject } from '@tresjs/core';

@@ -44,6 +44,7 @@ export default defineNuxtConfig({
     "@tresjs/nuxt",
     "@nuxt/devtools",
     "@vueuse/nuxt",
+    '@sidebase/nuxt-pdf'
   ],
 
   plugins: [],

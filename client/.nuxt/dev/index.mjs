@@ -4,6 +4,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parentPort, threadId } from 'node:worker_threads';
 import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, defineEventHandler, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, eventHandler, getResponseStatus, setResponseHeaders, setHeaders, sendRedirect, proxyRequest, createError, lazyEventHandler, useBase, createApp, createRouter as createRouter$1, toNodeListener, getRouterParam, readBody, getQuery as getQuery$1, getResponseStatusText } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/h3/dist/index.mjs';
+import PDFDocument from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/pdfkit/js/pdfkit.js';
+import defu, { defuFn, defu as defu$1 } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/defu/dist/defu.mjs';
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/vue-bundle-renderer/dist/runtime.mjs';
 import { stringify, uneval } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/devalue/index.js';
 import destr from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/destr/dist/index.mjs';
@@ -12,7 +14,6 @@ import { renderToString } from 'file://C:/Users/qhfka/Desktop/project/daekwang/c
 import { propsToString, renderSSRHead } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/@unhead/ssr/dist/index.mjs';
 import { createServerHead as createServerHead$1, CapoPlugin } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/unhead/dist/index.mjs';
 import { klona } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/klona/dist/index.mjs';
-import defu, { defuFn } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/defu/dist/defu.mjs';
 import { snakeCase } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/scule/dist/index.mjs';
 import { createHooks } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/hookable/dist/index.mjs';
 import { createFetch as createFetch$1, Headers as Headers$1 } from 'file://C:/Users/qhfka/Desktop/project/daekwang/client/node_modules/ofetch/dist/node.mjs';
@@ -136,7 +137,7 @@ const errorHandler = (async function errorhandler(error, event) {
   const reqHeaders = getRequestHeaders(event);
   const isRenderingError = event.path.startsWith("/__nuxt_error") || !!reqHeaders["x-nuxt-error"];
   const res = isRenderingError ? null : await useNitroApp().localFetch(
-    withQuery(joinURL(useRuntimeConfig(event).app.baseURL, "/__nuxt_error"), errorObject),
+    withQuery(joinURL(useRuntimeConfig$1(event).app.baseURL, "/__nuxt_error"), errorObject),
     {
       headers: { ...reqHeaders, "x-nuxt-error": "true" },
       redirect: "manual"
@@ -357,6 +358,18 @@ const _inlineRuntimeConfig = {
     "kakaoApiKey": "1fd78490b5dee32d32599d28ea013811",
     "mdi": {
       "defaultSize": "1em"
+    },
+    "pdf": {
+      "defaultDocOptions": {
+        "size": "A4",
+        "bufferPages": true,
+        "margins": {
+          "top": 25,
+          "left": 25,
+          "right": 25,
+          "bottom": 25
+        }
+      }
     }
   },
   "ipx": {
@@ -380,7 +393,7 @@ const envOptions = {
 const _sharedRuntimeConfig = _deepFreeze(
   applyEnv(klona(_inlineRuntimeConfig), envOptions)
 );
-function useRuntimeConfig(event) {
+function useRuntimeConfig$1(event) {
   if (!event) {
     return _sharedRuntimeConfig;
   }
@@ -408,7 +421,7 @@ new Proxy(/* @__PURE__ */ Object.create(null), {
     console.warn(
       "Please use `useRuntimeConfig()` instead of accessing config directly."
     );
-    const runtimeConfig = useRuntimeConfig();
+    const runtimeConfig = useRuntimeConfig$1();
     if (prop in runtimeConfig) {
       return runtimeConfig[prop];
     }
@@ -773,7 +786,7 @@ function cloneWithProxy(obj, overrides) {
 const cachedEventHandler = defineCachedEventHandler;
 
 function defineRenderHandler(render) {
-  const runtimeConfig = useRuntimeConfig();
+  const runtimeConfig = useRuntimeConfig$1();
   return eventHandler(async (event) => {
     const nitroApp = useNitroApp();
     const ctx = { event, render, response: void 0 };
@@ -811,7 +824,7 @@ function defineRenderHandler(render) {
   });
 }
 
-const config = useRuntimeConfig();
+const config = useRuntimeConfig$1();
 const _routeRulesMatcher = toRouteMatcher(
   createRouter({ routes: config.nitro.routeRules })
 );
@@ -860,7 +873,7 @@ function getRouteRules(event) {
   event.context._nitro = event.context._nitro || {};
   if (!event.context._nitro.routeRules) {
     event.context._nitro.routeRules = getRouteRulesForPath(
-      withoutBase(event.path.split("?")[0], useRuntimeConfig().app.baseURL)
+      withoutBase(event.path.split("?")[0], useRuntimeConfig$1().app.baseURL)
     );
   }
   return event.context._nitro.routeRules;
@@ -909,19 +922,19 @@ async function runTask(name, {
 }
 
 function buildAssetsDir() {
-  return useRuntimeConfig().app.buildAssetsDir;
+  return useRuntimeConfig$1().app.buildAssetsDir;
 }
 function buildAssetsURL(...path) {
   return joinRelativeURL(publicAssetsURL(), buildAssetsDir(), ...path);
 }
 function publicAssetsURL(...path) {
-  const app = useRuntimeConfig().app;
+  const app = useRuntimeConfig$1().app;
   const publicBase = app.cdnURL || app.baseURL;
   return path.length ? joinRelativeURL(publicBase, ...path) : publicBase;
 }
 
 const _LZGzWS = lazyEventHandler(() => {
-  const opts = useRuntimeConfig().ipx || {};
+  const opts = useRuntimeConfig$1().ipx || {};
   const fsDir = opts?.fs?.dir ? (Array.isArray(opts.fs.dir) ? opts.fs.dir : [opts.fs.dir]).map((dir) => isAbsolute(dir) ? dir : fileURLToPath(new URL(dir, globalThis._importMeta_.url))) : void 0;
   const fsStorage = opts.fs?.dir ? ipxFSStorage({ ...opts.fs, dir: fsDir }) : void 0;
   const httpStorage = opts.http?.domains ? ipxHttpStorage({ ...opts.http }) : void 0;
@@ -938,9 +951,11 @@ const _LZGzWS = lazyEventHandler(() => {
   return useBase(opts.baseURL, ipxHandler);
 });
 
+const _lazy_VJ7eT9 = () => Promise.resolve().then(function () { return generatePdf$1; });
 const _lazy_sEANMi = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
+  { route: '/api/generate-pdf', handler: _lazy_VJ7eT9, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_error', handler: _lazy_sEANMi, lazy: true, middleware: false, method: undefined },
   { route: '/_ipx/**', handler: _LZGzWS, lazy: false, middleware: false, method: undefined },
   { route: '/_fonts/**', handler: _lazy_sEANMi, lazy: true, middleware: false, method: undefined },
@@ -948,7 +963,7 @@ const handlers = [
 ];
 
 function createNitroApp() {
-  const config = useRuntimeConfig();
+  const config = useRuntimeConfig$1();
   const hooks = createHooks();
   const captureError = (error, context = {}) => {
     const promise = hooks.callHookParallel("error", error, context).catch((error_) => {
@@ -1144,6 +1159,44 @@ const errorDev = /*#__PURE__*/Object.freeze({
   template: template$1
 });
 
+function createPDF(options, data, layout, streamToFile) {
+  const optionsWithDefaults = defu$1(options, useRuntimeConfig().public.pdf.defaultDocOptions);
+  const formattedOptions = {
+    ...optionsWithDefaults,
+    margins: {
+      ...optionsWithDefaults.margins,
+      ...{},
+      ...{}
+    }
+  };
+  const doc = new PDFDocument(formattedOptions);
+  doc.data = data;
+  doc.layout = layout;
+  return doc;
+}
+
+const generatePdf = defineEventHandler(async (event) => {
+  const body = await readBody(event);
+  const pdfBuffer = await createPDF({
+    content: `
+      <h1>\uACAC\uC801 \uC694\uCCAD\uC11C</h1>
+      <p><strong>\uC2DC\uACF5 \uC7A5\uC18C:</strong> ${body.location}</p>
+      <p><strong>\uC2DC\uACF5 \uC2DC\uAE30:</strong> ${body.timeline}</p>
+      <p><strong>PC \uBC15\uC2A4 \uADDC\uACA9:</strong> ${body.specification}</p>
+      <p><strong>\uC124\uCE58 \uAE38\uC774:</strong> ${body.length}</p>
+      <p><strong>\uC7A5\uBE44 \uC9C0\uC6D0:</strong> ${body.equipment}</p>
+    `
+  });
+  return send(event, pdfBuffer, "application/pdf", {
+    "Content-Disposition": 'attachment; filename="estimate.pdf"'
+  });
+});
+
+const generatePdf$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: generatePdf
+});
+
 const Vue3 = version[0] === "3";
 
 function resolveUnref(r) {
@@ -1252,7 +1305,7 @@ const getSPARenderer = lazyCachedFunction(async () => {
   }, options);
   const result = await renderer.renderToString({});
   const renderToString = (ssrContext) => {
-    const config = useRuntimeConfig(ssrContext.event);
+    const config = useRuntimeConfig$1(ssrContext.event);
     ssrContext.modules = ssrContext.modules || /* @__PURE__ */ new Set();
     ssrContext.payload.serverRendered = false;
     ssrContext.config = {
@@ -1323,7 +1376,7 @@ const renderer = defineRenderHandler(async (event) => {
   const ssrContext = {
     url,
     event,
-    runtimeConfig: useRuntimeConfig(event),
+    runtimeConfig: useRuntimeConfig$1(event),
     noSSR: event.context.nuxt?.noSSR || routeOptions.ssr === false && !isRenderingIsland || (false),
     head,
     error: !!ssrError,

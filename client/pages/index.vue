@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import BackgroundPaths from "@/components/BackgroundPaths.vue";
+import CubeScene from "@/components/scene/CubeScene.vue";
 
 const sections = ["intro", "history", "projects"];
 const labels = ["소개", "연혁", "시공 사례"];
@@ -69,7 +70,16 @@ onMounted(() => {
 <template>
   <div class="index-page relative">
     <!-- 백그라운드 -->
-    <section id="paths" class="scene-paths">
+    <section id="paths" class="scene-paths relative">
+      <div
+        class="scene-overlay absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center z-10"
+      >
+        <div class="flex">
+          <img src="/logo.svg" alt="로고" class="logo mr-2" />
+          <h1 class="title text-primary">대광 PC</h1>
+        </div>
+        <p class="subtitle">PC BOX 설치 전문기업</p>
+      </div>
       <BackgroundPaths />
     </section>
 
@@ -96,13 +106,25 @@ onMounted(() => {
 
     <!-- 섹션 내용 -->
     <section id="intro" class="scene-wrapper section-dark">
-      <div class="scene-overlay">
-        <div class="flex">
-          <img src="/logo.svg" alt="로고" class="logo mr-2" />
+      <div class="scene-intro text-center space-y-6">
+        <div class="flex justify-center items-center">
+          <img src="/logo.svg" alt="로고" class="logo mr-3" />
           <h1 class="title text-white">대광 PC</h1>
         </div>
-        <p class="subtitle">PC BOX 설치 전문기업</p>
+        <p class="subtitle text-xl text-white leading-relaxed max-w-xl mx-auto">
+          <strong class="text-accent">PC 박스</strong>는
+          <strong>미리 제작된 콘크리트 구조물</strong>로,<br />
+          <strong>배수로</strong> 및 <strong>지하 구조물 시공</strong>에
+          사용됩니다.<br /><br />
+
+          <strong>정밀한 시공</strong>과 <strong>전문 설치 기술</strong>을
+          바탕으로,<br />
+          인프라의 든든한 기반을 만들어 갑니다.
+        </p>
       </div>
+      <section class="three-section">
+        <CubeScene />
+      </section>
     </section>
 
     <section id="history" class="history-section section-light">
@@ -139,6 +161,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.three-section {
+  position: relative;
+  width: 70%;
+  margin: 0 auto;
+  height: 100vh;
+}
 .scene-paths {
   position: sticky;
   top: 0;
@@ -198,11 +226,16 @@ onMounted(() => {
   padding: 4rem 2rem;
   position: relative;
   overflow: hidden;
+  z-index: 2;
 }
 
-.scene-overlay {
+.scene-intro {
   text-align: center;
-  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .section-heading {
