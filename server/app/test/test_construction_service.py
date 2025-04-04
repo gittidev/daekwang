@@ -1,7 +1,7 @@
 # tests/test_construction_service.py
 
 from app.schemas.construction import ConstructionCreate
-from app.services.construction_service import create_construction_service
+from server.app.services.construction import create_construction_service
 
 def test_create_construction(db):
     # given

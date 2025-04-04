@@ -1,5 +1,4 @@
-# app/schemas/construction.py
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
@@ -11,7 +10,7 @@ class ConstructionBase(BaseModel):
     is_published: bool
     thumbnail: Optional[str] = None
 
-# 생성 요청 시 사용 (요청에는 id 없음!)
+# 생성 요청 시 사용 (요청에는 id 없음)
 class ConstructionCreate(ConstructionBase):
     total_price: Optional[int] = None
 
@@ -19,9 +18,6 @@ class ConstructionCreate(ConstructionBase):
 class ConstructionPublicResponse(ConstructionBase):
     id: int
     created_at: datetime
-    model_config = ConfigDict(from_attributes=True)
-
-
 
 # 관리자 응답용 (금액 O)
 class ConstructionAdminResponse(ConstructionPublicResponse):

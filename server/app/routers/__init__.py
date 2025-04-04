@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from .auth import admin_auth_router
+from .admin import router as admin_auth_router
 from .construction import router as construction_router
 from .schedule import router as schedule_router
 
