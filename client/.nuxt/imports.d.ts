@@ -34,7 +34,6 @@ export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerS
 export { useAdminAuth } from '../composables/useAdminAuth';
 export { useAdminToken } from '../composables/useAdminToken';
 export { useApi } from '../composables/useApi';
-export { auth } from '../utils/firebase';
 export { getThumbnail } from '../utils/getThumbnail';
 export { default as exportToPDF } from '../node_modules/@sidebase/nuxt-pdf/dist/runtime/composables/exportToPDF';
 export { default as htmlToPDF } from '../node_modules/@sidebase/nuxt-pdf/dist/runtime/composables/htmlToPDF';

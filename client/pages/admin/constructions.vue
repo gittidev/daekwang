@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter, useFetch } from "#app";
+import { useRouter, useFetch } from "nuxt/app";
 import ConstructionForm from "@/components/admin/ConstructionForm.vue";
 import { useAdminToken } from "@/composables/useAdminToken";
-import type { ConstructionResponse } from "~/types/construction";
+import type { ConstructionResponse } from "@/types/construction";
 
 const router = useRouter();
 const { isLoggedIn } = useAdminToken();
@@ -187,7 +187,7 @@ const deleteConstruction = async (id: number) => {
             }}
           </h2>
           <ConstructionForm
-            :construction="editingConstruction"
+            :construction="editingConstruction!"
             @saved="
               () => {
                 closeModal();

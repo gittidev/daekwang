@@ -6,7 +6,6 @@ from fastapi.exceptions import HTTPException
 from app.routers import router
 from app.database import Base, engine
 from app.config import ENV
-from app.init_admin import create_initial_admin
 from app.schemas.response import BaseResponse
 from app.constants.status_code import StatusCode
 
@@ -45,10 +44,6 @@ def http_exception_handler(request: Request, exc: HTTPException):
 # DB 테이블 자동 생성
 Base.metadata.create_all(bind=engine)
 
-# 운영 배포시에는 호출 안함
-if ENV=="development":
-    # 초기 관리자 계정 생성
-    create_initial_admin()
 
 # 라우터 등록
 app.include_router(router)

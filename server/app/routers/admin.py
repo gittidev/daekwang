@@ -8,33 +8,40 @@ from app.services.admin import create_admin, authenticate_admin, create_access_t
 from app.services.token import create_access_token, create_refresh_token, decode_token
 from app.schemas.response import BaseResponse
 from app.constants.status_code import StatusCode
+from fastapi.security import OAuth2PasswordRequestForm
 from app.config import ACCESS_TOKEN_EXPIRE_MINUTES
+from app.utils.exceptions import UnauthorizedException
+from app.utils.response import success_response
 
 
 router = APIRouter()
 
-@router.post("/signup")
-def signup(admin_data: AdminCreate, db: Session = Depends(get_db)):
+# 관리자 생성용/ 개발자 계정 생성용 API
+@router.post("/dev/create-admin")
+def create_dev_admin(db: Session = Depends(get_db)):
+    admin_data = AdminCreate(username="admin", password="1234")
     admin = create_admin(db, admin_data)
-    return BaseResponse(success=True, message="관리자 계정 생성 완료", data=None, code=StatusCode.SUCCESS)
+    return {
+        "message": "✅ 관리자 계정 생성 완료",
+        "username": admin.username
+    }
 
 @router.post("/login", response_model=BaseResponse[TokenResponse])
 def login(admin_data: AdminLogin, db: Session = Depends(get_db)):
     admin = authenticate_admin(db, admin_data.username, admin_data.password)
     if not admin:
-        raise HTTPException(status_code=StatusCode.UNAUTHORIZED, detail="Invalid credentials")
+        raise UnauthorizedException(detail="잘못된 사용자 이름 또는 비밀번호입니다.")
 
-    access_token = create_access_token({"sub": admin.username})
-    refresh_token = create_refresh_token({"sub": admin.username})
+    access_token = create_access_token({"sub": admin.username,"is_admin": True})
+    refresh_token = create_refresh_token({"sub": admin.username, "is_admin": True})
 
-    response = JSONResponse(
-            content=BaseResponse(
-                success=True,
-                message="로그인 성공",
-                data={"access_token": access_token},
-                code=StatusCode.SUCCESS
-            ).dict()
+    response = success_response(
+            data={"access_token": access_token,   
+                "token_type": "bearer",
+                "expires_in": ACCESS_TOKEN_EXPIRE_MINUTES * 60},
+            message="로그인 성공"
         )
+    
 
     # ✅ 쿠키에 토큰 저장
     response.set_cookie(
@@ -47,6 +54,7 @@ def login(admin_data: AdminLogin, db: Session = Depends(get_db)):
     )
 
     return response
+
 
 @router.post("/refresh", response_model=BaseResponse[TokenResponse],
                responses={
