@@ -79,7 +79,14 @@ source venv/bin/activate      # macOS/Linux
 pip install -r requirements.txt
 
 # 3. 서버 실행
-uvicorn app.main:app --reload
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+# 개발 및 운영실행
+ENV_FILE=.env.development uvicorn app.main:app --reload
+ENV_FILE=.env.production uvicorn app.main:app
+
+
+
 ```
 
 - Swagger UI: http://localhost:8000/docs
@@ -124,7 +131,7 @@ PYTHONPATH=. pytest
 
 ## 📝 향후 개발 계획
 
-- [ ] 관리자 인증 (JWT + OAuth2)
+- [ ] 관리자 인증 (JWT)
 - [ ] 이미지 파일 업로드 (썸네일 및 갤러리)
 - [ ] 캘린더 UI 연동
 - [ ] 공사 완료 상태 필터

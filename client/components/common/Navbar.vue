@@ -24,7 +24,11 @@ const navigate = (to: string) => {
   <v-app-bar app flat color="#2e2e2e" class="px-6 text-white elevation-2">
     <v-container class="d-flex justify-space-between align-center">
       <!-- 로고 (고정) -->
-      <div class="d-flex align-center" style="flex-shrink: 0">
+      <div
+        class="d-flex align-center"
+        style="flex-shrink: 0"
+        @click="navigate(navItems[0].to)"
+      >
         <NuxtLink to="/">
           <img src="/logo.svg" alt="Logo" style="height: 20px" />
         </NuxtLink>

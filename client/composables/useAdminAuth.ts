@@ -1,5 +1,5 @@
 // composables/useAdminAuth.ts
-import { useCookie } from "#app";
+import { useRuntimeConfig, useCookie } from "nuxt/app";
 import { ref, computed } from "vue";
 
 const ADMIN_TOKEN_KEY = "admin_token";
@@ -9,14 +9,15 @@ export const useAdminAuth = () => {
   const isLoggedIn = computed(() => !!token.value);
   const loading = ref(false);
   const error = ref<string | null>(null);
+  const config = useRuntimeConfig();
 
   // 로그인
-  const login = async (username: string, password: string) => {
+  const login = async (username: string, password: string): Promise<string> => {
     try {
       loading.value = true;
       error.value = null;
 
-      const res = await fetch("http://localhost:8000/api/admin/login", {
+      const res = await fetch(`${config.public.apiUrl}/admin/login`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -30,9 +31,13 @@ export const useAdminAuth = () => {
       }
 
       const data = await res.json();
-      token.value = data.access_token;
+      const newToken = data.access_token;
+
+      token.value = newToken; // 토큰 설정
+      return newToken || "";
     } catch (err: any) {
       error.value = err.message || "알 수 없는 오류";
+      throw err;
     } finally {
       loading.value = false;
     }

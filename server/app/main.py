@@ -14,7 +14,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Nuxt dev 주소
+    allow_origins=["http://localhost:3000"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -57,3 +57,14 @@ app.include_router(router)
 @app.get("/", include_in_schema=False)
 def root():
     return {"message": "FastAPI is running"}
+
+@app.get("/api/ping")
+def ping():
+    return {  
+        "success": True,
+        "message": "pong",
+        "data": {
+            "message": "pong, 백엔드 연결확인!❤️"
+        },
+        "code": 200
+        }

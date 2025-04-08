@@ -22,18 +22,17 @@ import { ref } from "vue";
 import { useAdminToken } from "@/composables/useAdminToken";
 import { useAdminAuth } from "@/composables/useAdminAuth";
 
-// 타입 명시적으로 정의
 const username = ref<string>("");
 const password = ref<string>("");
 
 const router = useRouter();
-const { login: doLogin } = useAdminAuth(); // login 함수 불러오기
+const { login: doLogin } = useAdminAuth();
 const { setToken } = useAdminToken();
 
 const login = async () => {
   try {
-    await doLogin(username.value, password.value);
-    setToken("ok"); // isLoggedIn 상태를 true로 만들기 위한 임의 토큰
+    const token = await doLogin(username.value, password.value);
+    setToken(token);
     router.push("/admin");
   } catch (error) {
     alert("로그인에 실패했습니다. 아이디 또는 비밀번호를 확인하세요.");

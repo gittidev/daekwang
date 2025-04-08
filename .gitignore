@@ -11,7 +11,9 @@ clent/dist
 # Python (백엔드)
 server/__pycache__/
 server/venv/
-server/.env
+server/.env*
+server/scripts/dev_only/
+server/firebase-key.json
 
 # Node dependencies
 node_modules

@@ -165,23 +165,6 @@ const errorHandler = (async function errorhandler(error, event) {
   return send(event, html);
 });
 
-const script = `
-if (!window.__NUXT_DEVTOOLS_TIME_METRIC__) {
-  Object.defineProperty(window, '__NUXT_DEVTOOLS_TIME_METRIC__', {
-    value: {},
-    enumerable: false,
-    configurable: true,
-  })
-}
-window.__NUXT_DEVTOOLS_TIME_METRIC__.appInit = Date.now()
-`;
-
-const _MsNLU23EzF = (function(nitro) {
-  nitro.hooks.hook("render:html", (htmlContext) => {
-    htmlContext.head.push(`<script>${script}<\/script>`);
-  });
-});
-
 const rootDir = "C:/Users/qhfka/Desktop/project/daekwang/client";
 
 const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"},{"name":"대광 PC","content":"광주/전남 PrecastConcreate 설치전문"}],"link":[{"rel":"icon","type":"image/png","href":"/favicon-96x96.png","sizes":"96x96"},{"rel":"icon","type":"image/svg+xml","href":"/favicon.svg"},{"rel":"shortcut icon","href":"/favicon.ico"},{"rel":"apple-touch-icon","sizes":"180x180","href":"/apple-touch-icon.png"},{"rel":"manifest","href":"/site.webmanifest"},{"key":"mdi","rel":"stylesheet","href":"https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css","type":"text/css","crossorigin":"anonymous"}],"style":[],"script":[],"noscript":[],"title":"대광 PC"};
@@ -271,8 +254,7 @@ function onConsoleLog(callback) {
 }
 
 const plugins = [
-  _MsNLU23EzF,
-_QM5NGmqKKX
+  _QM5NGmqKKX
 ];
 
 const inlineAppConfig = {
@@ -356,6 +338,15 @@ const _inlineRuntimeConfig = {
   },
   "public": {
     "kakaoApiKey": "1fd78490b5dee32d32599d28ea013811",
+    "apiUrl": "",
+    "FIREBASE_API_KEY": "AIzaSyAHrKL0wjkMWA0Pn3VHEE5Xucb_YVHLes",
+    "FIREBASE_AUTH_DOMAIN": "daekwang-d7741.firebaseapp.com",
+    "FIREBASE_DATABASE_URL": "",
+    "FIREBASE_PROJECT_ID": "daekwang-d7741",
+    "FIREBASE_STORAGE_BUCKET": "daekwang-d7741.firebasestorage.app",
+    "FIREBASE_MESSAGING_SENDER_ID": "138319026560",
+    "FIREBASE_APP_ID": "1:138319026560:web:50444396eca51e73d8c965",
+    "FIREBASE_MEASUREMENT_ID": "G-WX67GPC1R0",
     "mdi": {
       "defaultSize": "1em"
     },

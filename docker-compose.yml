@@ -9,6 +9,8 @@ services:
       - "8000"
     networks:
       - dkpc
+    env_file:
+      - ./server/.env
 
   client:
     build:

@@ -33,11 +33,13 @@ export { createGenericProjection, createProjection, logicAnd, logicNot, logicOr,
 export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerSeoMeta, useServerHeadSafe } from '@unhead/vue';
 export { useAdminAuth } from '../composables/useAdminAuth';
 export { useAdminToken } from '../composables/useAdminToken';
+export { useApi } from '../composables/useApi';
+export { auth } from '../utils/firebase';
+export { getThumbnail } from '../utils/getThumbnail';
 export { default as exportToPDF } from '../node_modules/@sidebase/nuxt-pdf/dist/runtime/composables/exportToPDF';
 export { default as htmlToPDF } from '../node_modules/@sidebase/nuxt-pdf/dist/runtime/composables/htmlToPDF';
 export { useDate, useLocale, useDefaults, useDisplay, useLayout, useRtl, useTheme, useGoTo } from 'vuetify';
 export { useImage } from '../node_modules/@nuxt/image/dist/runtime/composables';
 export { useCamera, useLoader, useLogger, useLoop, useRaycaster, useRenderLoop, useRenderer, useSeek, useTexture, useTres, useTresContext, useTresContextProvider, useTresEventManager, extend as extendTres, TresObject } from '@tresjs/core';
 export { extractBindingPosition, hasSetter, pick, useAnimations, useEnvironment, useFBO, useFBX, useGLTF, useGLTFExporter, useMask, useProgress, useSurfaceSampler, useVideoTexture } from '@tresjs/cientos';
-export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
 export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';

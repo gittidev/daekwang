@@ -4,7 +4,11 @@
   "compilerOptions": {
     "types": ["vite-plugin-glsl/ext"],
     "moduleResolution": "node",
-    "module": "ESNext"
+    "module": "ESNext",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": [
     "types",

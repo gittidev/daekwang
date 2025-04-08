@@ -2,126 +2,108 @@
 import { ref, onMounted, computed } from "vue";
 import ConstructionCard from "~/components/ConstructionCard.vue";
 import { useAsyncData } from "#app";
-import type {
-  ConstructionPublicResponse,
-  ConstructionAdminResponse,
-} from "~/types/construction";
+import type { ConstructionResponse } from "~/types/construction";
 
-const isAdmin = ref(true);
+const isAdmin = ref(false);
 
 const {
   data: constructions,
   pending: isLoading,
   error,
-} = await useAsyncData<
-  ConstructionPublicResponse[] | ConstructionAdminResponse[]
->("constructions", () => $fetch("/api/constructions"));
+} = await useAsyncData<ConstructionResponse[]>("constructions", () =>
+  $fetch("/api/constructions")
+);
 
-const fallbackData: (ConstructionPublicResponse | ConstructionAdminResponse)[] =
-  [
-    {
-      id: 1,
-      place: "서울 강남구 논현동",
-      period: "2024.01 ~ 2024.03",
-      description: "지하 배수로 및 보강 공사",
-      is_published: true,
-      created_at: new Date().toISOString(),
-      thumbnail: "/img/1.png",
-      total_price: 120000000,
-    },
-    {
-      id: 2,
-      place: "광주 북구 매곡동",
-      period: "2023.11 ~ 2023.12",
-      description: "도심 하수관 교체 사업",
-      is_published: true,
-      created_at: new Date().toISOString(),
-      thumbnail: "/img/2.png",
-      total_price: 80000000,
-    },
-    {
-      id: 3,
-      place: "전남 목포시 산정동",
-      period: "2023.09 ~ 2023.10",
-      description: "주택가 암거 설치",
-      is_published: true,
-      created_at: new Date().toISOString(),
-      thumbnail: "/img/3.png",
-      total_price: 50000000,
-    },
-    {
-      id: 4,
-      place: "전남 목포시 산정동",
-      period: "2023.09 ~ 2023.10",
-      description: "주택가 암거 설치",
-      is_published: true,
-      created_at: new Date().toISOString(),
-      thumbnail: "/img/3.png",
-      total_price: 50000000,
-    },
-    {
-      id: 5,
-      place: "전남 목포시 산정동",
-      period: "2023.09 ~ 2023.10",
-      description: "주택가 암거 설치",
-      is_published: true,
-      created_at: new Date().toISOString(),
-      thumbnail: "/img/3.png",
-      total_price: 50000000,
-    },
-    {
-      id: 6,
-      place: "전남 목포시 산정동",
-      period: "2023.09 ~ 2023.10",
-      description: "주택가 암거 설치",
-      is_published: true,
-      created_at: new Date().toISOString(),
-      thumbnail: "/img/3.png",
-      total_price: 50000000,
-    },
-    {
-      id: 6,
-      place: "전남 목포시 산정동",
-      period: "2023.09 ~ 2023.10",
-      description: "주택가 암거 설치",
-      is_published: true,
-      created_at: new Date().toISOString(),
-      thumbnail: "/img/3.png",
-      total_price: 50000000,
-    },
-    {
-      id: 6,
-      place: "전남 목포시 산정동",
-      period: "2023.09 ~ 2023.10",
-      description: "주택가 암거 설치",
-      is_published: true,
-      created_at: new Date().toISOString(),
-      thumbnail: "/img/3.png",
-      total_price: 50000000,
-    },
-    {
-      id: 6,
-      place: "전남 목포시 산정동",
-      period: "2023.09 ~ 2023.10",
-      description: "주택가 암거 설치",
-      is_published: true,
-      created_at: new Date().toISOString(),
-      thumbnail: "/img/3.png",
-      total_price: 50000000,
-    },
-  ];
+const fallbackData: ConstructionResponse[] = [
+  {
+    id: 1,
+    place: "전남 여수시 돌산읍",
+    period: "2024.01 ~ 2024.04",
+    description: "해안도로 배수로 정비 공사",
+    is_published: true,
+    created_at: new Date("2024-01-15").toISOString(),
+    thumbnail: "/img/main4.png",
+    total_price: 150000000,
+  },
+  {
+    id: 2,
+    place: "전남 순천시 해룡면",
+    period: "2023.12 ~ 2024.02",
+    description: "순천만 습지 보호구역 하수관 설치",
+    is_published: true,
+    created_at: new Date("2023-12-01").toISOString(),
+    thumbnail: "/img/main4.png",
+    total_price: 90000000,
+  },
+  {
+    id: 3,
+    place: "전남 목포시 용해동",
+    period: "2023.10 ~ 2023.11",
+    description: "목포 항구 주변 도로 보강 공사",
+    is_published: true,
+    created_at: new Date("2023-10-10").toISOString(),
+    thumbnail: "/img/main4.png",
+    total_price: 70000000,
+  },
+  {
+    id: 4,
+    place: "전남 나주시 금천면",
+    period: "2023.08 ~ 2023.09",
+    description: "농업용수 공급을 위한 관로 설치",
+    is_published: true,
+    created_at: new Date("2023-08-20").toISOString(),
+    thumbnail: "/img/main4.png",
+    total_price: 45000000,
+  },
+  {
+    id: 5,
+    place: "전남 광양시 중마동",
+    period: "2024.02 ~ 2024.05",
+    description: "광양제철소 인근 배수시설 개선 공사",
+    is_published: true,
+    created_at: new Date("2024-02-05").toISOString(),
+    thumbnail: "/img/main4.png",
+    total_price: 180000000,
+  },
+  {
+    id: 6,
+    place: "전남 담양군 담양읍",
+    period: "2023.11 ~ 2023.12",
+    description: "죽녹원 주변 보행로 정비",
+    is_published: true,
+    created_at: new Date("2023-11-15").toISOString(),
+    thumbnail: "/img/main4.png",
+    total_price: 60000000,
+  },
+  {
+    id: 7,
+    place: "전남 장흥군 장흥읍",
+    period: "2023.09 ~ 2023.10",
+    description: "탐진강 제방 보강 공사",
+    is_published: true,
+    created_at: new Date("2023-09-25").toISOString(),
+    thumbnail: "/img/main4.png",
+    total_price: 85000000,
+  },
+  {
+    id: 8,
+    place: "전남 화순군 화순읍",
+    period: "2024.03 ~ 2024.06",
+    description: "화순 온천지구 하수처리시설 확장",
+    is_published: true,
+    created_at: new Date("2024-03-01").toISOString(),
+    thumbnail: "/img/main4.png",
+    total_price: 130000000,
+  },
+];
 
 const displayedConstructions = computed(() => {
   return constructions.value?.length ? constructions.value : fallbackData;
 });
 
-const selectedConstruction = ref<
-  ConstructionPublicResponse | ConstructionAdminResponse | null
->(null);
+const selectedConstruction = ref<ConstructionResponse | null>(null);
 const showPopup = ref(false);
-const openPopup = (
-  item: ConstructionPublicResponse | ConstructionAdminResponse
-) => {
+const openPopup = (item: ConstructionResponse) => {
   selectedConstruction.value = item;
   showPopup.value = true;
 };
@@ -175,8 +157,8 @@ onMounted(() => {
           alt="thumbnail"
           class="modal-image"
         />
-        <p>{{ selectedConstruction?.description }}</p>
         <p>{{ selectedConstruction?.period }}</p>
+        <p>{{ selectedConstruction?.description }}</p>
         <p v-if="isAdmin">
           💰 {{ selectedConstruction?.total_price?.toLocaleString() }}원
         </p>
@@ -190,7 +172,7 @@ onMounted(() => {
 
 <style scoped>
 .works-page {
-  padding: 6rem;
+  padding: 3rem;
   background: var(--background-base);
   color: var(--text-primary);
   min-height: 100vh;
@@ -245,7 +227,7 @@ onMounted(() => {
   background: var(--background-light);
   padding: 2rem;
   border-radius: 12px;
-  width: 90%;
+  width: 100%;
   max-width: 500px;
   position: relative;
 }
