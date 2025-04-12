@@ -7,9 +7,10 @@ import {
   Tooltip,
   Legend,
   LineElement,
-  PointElement, // Add this
+  PointElement,
   CategoryScale,
   LinearScale,
+  Filler,
 } from "chart.js";
 import type { ChartData, ChartOptions } from "chart.js";
 
@@ -21,7 +22,8 @@ ChartJS.register(
   LineElement,
   PointElement, // Add this
   CategoryScale,
-  LinearScale
+  LinearScale,
+  Filler
 );
 
 // Props 정의

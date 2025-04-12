@@ -1,6 +1,7 @@
 // composables/useAdminAuth.ts
 import { useRuntimeConfig, useCookie } from "nuxt/app";
 import { ref, computed } from "vue";
+import type { BaseResponse, TokenResponse } from "@/types/common";
 
 const ADMIN_TOKEN_KEY = "admin_token";
 
@@ -11,30 +12,36 @@ export const useAdminAuth = () => {
   const error = ref<string | null>(null);
   const config = useRuntimeConfig();
 
+  console.log(config.public.apiUrl);
+
   // 로그인
-  const login = async (username: string, password: string): Promise<string> => {
+  const login = async (
+    username: string,
+    password: string
+  ): Promise<BaseResponse<TokenResponse>> => {
     try {
       loading.value = true;
       error.value = null;
+      console.log(username, password, config.public.apiUrl); // 디버깅용 로그
 
       const res = await fetch(`${config.public.apiUrl}/admin/login`, {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
         },
-        body: new URLSearchParams({ username, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       if (!res.ok) {
         throw new Error("로그인에 실패했습니다.");
       }
 
-      const data = await res.json();
-      const newToken = data.access_token;
+      const result: BaseResponse<TokenResponse> = await res.json();
+      const newToken = result.data?.access_token || null;
+      token.value = newToken;
 
-      token.value = newToken; // 토큰 설정
-      return newToken || "";
+      return result;
     } catch (err: any) {
       error.value = err.message || "알 수 없는 오류";
       throw err;

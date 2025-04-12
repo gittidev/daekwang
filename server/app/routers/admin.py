@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, Depends, HTTPException, Body, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
@@ -8,23 +9,47 @@ from app.services.admin import create_admin, authenticate_admin, create_access_t
 from app.services.token import create_access_token, create_refresh_token, decode_token
 from app.schemas.response import BaseResponse
 from app.constants.status_code import StatusCode
-from fastapi.security import OAuth2PasswordRequestForm
 from app.config import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.utils.exceptions import UnauthorizedException
 from app.utils.response import success_response
-
+from app.models.admin import Admin
+from app.utils.dependencies import require_admin
 
 router = APIRouter()
 
 # 관리자 생성용/ 개발자 계정 생성용 API
-@router.post("/dev/create-admin")
+
+@router.post("/dev/create-admin", response_model=BaseResponse)
 def create_dev_admin(db: Session = Depends(get_db)):
-    admin_data = AdminCreate(username="admin", password="1234")
-    admin = create_admin(db, admin_data)
-    return {
-        "message": "✅ 관리자 계정 생성 완료",
-        "username": admin.username
-    }
+    username = os.environ.get("INIT_ADMIN_USERNAME")
+    password = os.environ.get("INIT_ADMIN_PASSWORD")
+    allowed = os.environ.get("ALLOWED_ADMIN_EMAIL", "").split(",")
+
+    if not username or not password:
+        raise HTTPException(status_code=400, detail="환경변수 설정 누락")
+
+    if username not in allowed:
+        raise HTTPException(status_code=403, detail="해당 이메일은 관리자 목록에 포함되어 있지 않습니다")
+
+    existing = db.query(Admin).filter_by(username=username).first()
+    if existing:
+        return BaseResponse(
+            success=True,
+            message="ℹ️ 관리자 계정이 이미 존재합니다.",
+            data=None,
+            code=StatusCode.SUCCESS,
+        )
+
+    admin = create_admin(db, AdminCreate(username=username, password=password))
+
+    return BaseResponse(
+        success=True,
+        message="✅ 관리자 계정 생성 완료",
+        data={"username": admin.username},
+        code=StatusCode.SUCCESS,
+    )
+
+
 
 @router.post("/login", response_model=BaseResponse[TokenResponse])
 def login(admin_data: AdminLogin, db: Session = Depends(get_db)):
@@ -54,6 +79,26 @@ def login(admin_data: AdminLogin, db: Session = Depends(get_db)):
     )
 
     return response
+
+
+@router.post("/create", response_model=BaseResponse)
+def add_admin(
+    admin: AdminCreate,
+    db: Session = Depends(get_db),
+    current_admin: str = Depends(require_admin)
+):
+    # 이미 존재하는 관리자 체크
+    if db.query(Admin).filter_by(username=admin.username).first():
+        raise HTTPException(status_code=400, detail="이미 존재하는 관리자입니다.")
+
+    create_admin(db, admin)
+
+    return BaseResponse(
+        success=True,
+        message="✅ 관리자 추가 완료",
+        data=None,
+        code=StatusCode.SUCCESS
+    )
 
 
 @router.post("/refresh", response_model=BaseResponse[TokenResponse],

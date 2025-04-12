@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAdminToken } from "@/composables/useAdminToken";
-import { useRouter } from "#app";
+import { useRouter } from "nuxt/app";
 
 const { isLoggedIn } = useAdminToken();
 const router = useRouter();

@@ -177,7 +177,6 @@
   "exclude": [
     "../dist",
     "../node_modules",
-    "../../node_modules",
     "../node_modules/nuxt/node_modules",
     "../node_modules/vuetify-nuxt-module/node_modules",
     "../node_modules/nuxt-mdi/node_modules",

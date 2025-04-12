@@ -11,8 +11,12 @@ class ConstructionBase(BaseModel):
     thumbnail: Optional[str] = None
 
 # 생성 요청 시 사용 (요청에는 id 없음)
-class ConstructionCreate(ConstructionBase):
-    total_price: Optional[int] = None
+class ConstructionCreate(BaseModel):
+    place: str
+    period: str
+    description: str
+    is_published: bool = False
+    total_price: Optional[float] = None
 
 # 일반 사용자 응답용 (금액 X)
 class ConstructionPublicResponse(ConstructionBase):

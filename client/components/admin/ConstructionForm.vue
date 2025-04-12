@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import type { ConstructionResponse } from "@/types/construction";
-import { useUploadImage } from "@/composables/firebase/useUploadImage";
 import { useRuntimeConfig } from "nuxt/app";
 import { useCookie } from "nuxt/app";
+import { useCreateConstruction } from "@/composables/construction/useCreateConstruction";
+import { useUpdateConstruction } from "@/composables/construction/useUpdateConstruction";
+
+import type { ConstructionCreateRequest } from "@/types/construction";
 
 const token = useCookie("access_token").value;
 const config = useRuntimeConfig();
@@ -58,38 +61,34 @@ const removeImage = () => {
 
 const handleSubmit = async () => {
   isUploading.value = true;
+
   try {
     const isNew = form.value.id === 0;
 
-    // 1️⃣ Construction 먼저 등록 (썸네일 없이)
-    const created = await $fetch<ConstructionResponse>(
-      `${apiUrl}/admin/constructions/create`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        method: isNew ? "POST" : "PUT",
-        body: {
-          ...form.value,
-          thumbnail: undefined,
-        },
-      }
-    );
+    // 1️⃣ FormData 생성
+    const formData = new FormData();
+    formData.append("place", form.value.place);
+    formData.append("period", form.value.period);
+    formData.append("description", form.value.description);
+    formData.append("is_published", String(form.value.is_published));
+    formData.append("total_price", String(form.value.total_price ?? ""));
 
-    // 2️⃣ 이미지가 있다면 Firebase 업로드 후 PATCH로 URL 반영
     if (file.value) {
-      const { uploadImage } = useUploadImage();
-      const uploadedUrl = await uploadImage(
-        file.value,
-        `construction_thumbnails/${created.id}`,
-        "thumbnail.jpg"
-      );
-
-      await $fetch(`/api/admin/constructions/${created.id}`, {
-        method: "PATCH",
-        body: { thumbnail: uploadedUrl },
-      });
+      formData.append("file", file.value); // 🔥 선택된 이미지가 있다면 포함
     }
+
+    // 2️⃣ API 요청
+    const endpoint = isNew
+      ? `${apiUrl}/admin/constructions/create`
+      : `${apiUrl}/admin/constructions/${form.value.id}`;
+
+    await $fetch(endpoint, {
+      method: isNew ? "POST" : "PUT",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     emit("saved");
   } catch (e) {

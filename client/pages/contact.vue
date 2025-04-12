@@ -1,45 +1,38 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { saveAs } from "file-saver";
-import ExcelJS from "exceljs";
 
 const emailAddress = "pyw4733@hanmail.net";
-
-// 시공 장소를 동적으로 제목에 넣을 수 있도록 처리
 const subject = ref("");
-
-// 기존 데이터 바인딩
 const location = ref("");
 const timeline = ref("");
-const specification = ref(""); // 기존 규격 입력
-const length = ref(""); // 기존 설치 길이 입력
+const specification = ref("");
+const length = ref("");
 const equipment = ref("");
-const otherRequests = ref(""); // 기타 요청 사항
-const contact = ref(""); // 연락처
-const estimatedCost = ref(""); // 예상 시공 견적비용
+const otherRequests = ref("");
+const contact = ref("");
+const estimatedCost = ref("");
 
-// 동적으로 추가할 수 있는 항목들
 const pcBoxSpecs = ref<{ spec: string; length: string }[]>([
   { spec: "", length: "" },
 ]);
 
-// 항목 추가
 const addSpec = () => {
   pcBoxSpecs.value.push({ spec: "", length: "" });
 };
 
-// 항목 제거
 const removeSpec = (index: number) => {
   pcBoxSpecs.value.splice(index, 1);
 };
 
-// 엑셀 파일 생성 및 다운로드
 const createAndDownloadExcel = async () => {
+  const { default: ExcelJS } = await import("exceljs");
+  const module = await import("file-saver");
+  const saveAs = module.default;
+
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("견적서");
 
-  // 스타일 정의
-  const titleStyle: Partial<ExcelJS.Style> = {
+  const titleStyle: Partial<import("exceljs").Style> = {
     font: { bold: true, size: 14, color: { argb: "FFFFFF" } },
     alignment: { vertical: "middle", horizontal: "center" },
     fill: { type: "pattern", pattern: "solid", fgColor: { argb: "3182CE" } },
@@ -51,7 +44,7 @@ const createAndDownloadExcel = async () => {
     },
   };
 
-  const headerStyle: Partial<ExcelJS.Style> = {
+  const headerStyle: Partial<import("exceljs").Style> = {
     font: { bold: true, size: 12, color: { argb: "FFFFFF" } },
     alignment: { vertical: "middle", horizontal: "center" },
     fill: { type: "pattern", pattern: "solid", fgColor: { argb: "4A5568" } },
@@ -63,7 +56,7 @@ const createAndDownloadExcel = async () => {
     },
   };
 
-  const cellStyle: Partial<ExcelJS.Style> = {
+  const cellStyle: Partial<import("exceljs").Style> = {
     font: { size: 10 },
     alignment: { vertical: "middle", horizontal: "left" },
     border: {
@@ -74,18 +67,15 @@ const createAndDownloadExcel = async () => {
     },
   };
 
-  // 제목 추가
   worksheet.mergeCells("A1:B1");
   worksheet.getCell("A1").value = `${location.value} 견적서`;
   worksheet.getCell("A1").style = titleStyle;
 
-  // 열 너비 설정
   worksheet.columns = [
     { key: "A", width: 20 },
     { key: "B", width: 30 },
   ];
 
-  // 기본 정보 섹션
   worksheet
     .addRow(["이름/직책", contact.value])
     .eachCell((cell) => (cell.style = cellStyle));
@@ -98,22 +88,16 @@ const createAndDownloadExcel = async () => {
   worksheet
     .addRow(["시공 장소", location.value])
     .eachCell((cell) => (cell.style = cellStyle));
-
-  // 빈 행 추가 (간격)
   worksheet.addRow([]);
 
-  // PC 예상 시공 내역 섹션
   worksheet
     .addRow(["PC 예상 시공 내역", ""])
     .eachCell((cell) => (cell.style = headerStyle));
   worksheet.mergeCells("A6:B6");
 
-  // PC 박스 표 헤더
   worksheet
     .addRow(["PC 박스 규격", "길이(M)"])
     .eachCell((cell) => (cell.style = headerStyle));
-
-  // PC 박스 데이터 추가 (기존 specification/length + 동적 pcBoxSpecs)
   worksheet
     .addRow([specification.value, length.value])
     .eachCell((cell) => (cell.style = cellStyle));
@@ -123,10 +107,8 @@ const createAndDownloadExcel = async () => {
       .eachCell((cell) => (cell.style = cellStyle));
   });
 
-  // 빈 행 추가
   worksheet.addRow([]);
 
-  // 기타 정보 섹션
   worksheet
     .addRow(["장비 지원 여부", equipment.value])
     .eachCell((cell) => (cell.style = cellStyle));
@@ -134,14 +116,13 @@ const createAndDownloadExcel = async () => {
     .addRow(["기타 요청 사항", otherRequests.value])
     .eachCell((cell) => (cell.style = cellStyle));
 
-  // 엑셀 파일 다운로드
   const buffer = await workbook.xlsx.writeBuffer();
   const blob = new Blob([buffer], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });
   saveAs(blob, `${location.value}_견적서.xlsx`);
 };
-// 이메일 클라이언트 열기
+
 const openEmailClient = () => {
   let mailBody = `다음 세부사항이 포함된 견적을 제공해 주세요:
 - 시공 장소: ${location.value}
@@ -149,14 +130,12 @@ const openEmailClient = () => {
 - 장비 지원 여부: ${equipment.value}
 - 기타 요청: ${otherRequests.value}`;
 
-  // PC 박스 규격과 설치 길이 부분을 추가
   pcBoxSpecs.value.forEach((item, index) => {
     mailBody += `\nPC 박스 ${index + 1} 규격: ${item.spec}   설치 길이: ${
       item.length
     }`;
   });
 
-  // 이메일 제목을 시공 장소에 맞게 변경
   subject.value = `${location.value} 견적 요청드립니다`;
 
   const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(

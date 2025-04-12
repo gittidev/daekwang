@@ -5,16 +5,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       kakaoApiKey: process.env.KAKAO_API_KEY,
-      apiUrl: process.env.API_URL,
-      FIREBASE_API_KEY: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,
-      FIREBASE_AUTH_DOMAIN: process.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-      FIREBASE_DATABASE_URL: process.env.NUXT_PUBLIC_FIREBASE_DATABASE_URL,
-      FIREBASE_PROJECT_ID: process.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID,
-      FIREBASE_STORAGE_BUCKET: process.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-      FIREBASE_MESSAGING_SENDER_ID:
-        process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-      FIREBASE_APP_ID: process.env.NUXT_PUBLIC_FIREBASE_APP_ID,
-      FIREBASE_MEASUREMENT_ID: process.env.NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+      apiUrl: process.env.NUXT_PUBLIC_API_URL,
     },
   },
 
