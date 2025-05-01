@@ -2,13 +2,16 @@ import glsl from "vite-plugin-glsl";
 import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
+  devServer: {
+    host: "0.0.0.0",
+    port: 3000,
+  },
   runtimeConfig: {
     public: {
       kakaoApiKey: process.env.KAKAO_API_KEY,
       apiUrl: process.env.NUXT_PUBLIC_API_URL,
     },
   },
-
   app: {
     head: {
       title: "대광 PC",

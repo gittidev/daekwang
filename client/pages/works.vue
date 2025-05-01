@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import ConstructionCard from "~/components/ConstructionCard.vue";
-import { useAsyncData } from "#app";
-import type { ConstructionResponse } from "~/types/construction";
+import ConstructionCard from "@/components/ConstructionCard.vue";
+import { useAsyncData } from "nuxt/app";
+import type { ConstructionResponse } from "@/types/construction";
 
 const isAdmin = ref(false);
 
@@ -152,12 +152,13 @@ onMounted(() => {
       <div class="modal-content">
         <button class="close-btn" @click="closePopup">×</button>
         <h2>{{ selectedConstruction?.place }}</h2>
+        <p>{{ selectedConstruction?.period }}</p>
         <img
           :src="selectedConstruction?.thumbnail || '/img/placeholder.png'"
           alt="thumbnail"
           class="modal-image"
         />
-        <p>{{ selectedConstruction?.period }}</p>
+
         <p>{{ selectedConstruction?.description }}</p>
         <p v-if="isAdmin">
           💰 {{ selectedConstruction?.total_price?.toLocaleString() }}원
@@ -172,7 +173,7 @@ onMounted(() => {
 
 <style scoped>
 .works-page {
-  padding: 3rem;
+  padding: 3rem 4rem;
   background: var(--background-base);
   color: var(--text-primary);
   min-height: 100vh;
@@ -189,7 +190,7 @@ onMounted(() => {
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 1.5rem;
   margin: 0 auto;
 }
 @media (max-width: 1200px) {
@@ -225,38 +226,62 @@ onMounted(() => {
 
 .modal-content {
   background: var(--background-light);
-  padding: 2rem;
-  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  border-radius: 4px;
   width: 100%;
-  max-width: 500px;
+  max-width: 700px;
   position: relative;
+  color: var(--text-primary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .modal-image {
   width: 100%;
-  height: 200px;
+  height: 300px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.modal-content h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.modal-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
   margin-bottom: 1rem;
+}
+
+.modal-content p:last-of-type {
+  margin-bottom: 0;
+}
+
+.edit-btn {
+  margin-top: 1.5rem;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.edit-btn:hover {
+  background: var(--accent-color-dark);
 }
 
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 14px;
+  right: 14px;
   background: transparent;
   border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.edit-btn {
-  margin-top: 1rem;
-  background: var(--accent-color);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  font-size: 1.8rem;
+  color: var(--text-secondary);
   cursor: pointer;
 }
 </style>

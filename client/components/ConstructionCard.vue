@@ -37,7 +37,7 @@ const formatPrice = (price: number) => {
 .construction-card {
   background: var(--background-soft);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 16px var(--shadow-color);
   display: flex;
@@ -52,7 +52,7 @@ const formatPrice = (price: number) => {
 
 .thumbnail {
   width: 100%;
-  height: 200px;
+  height: 220px;
   overflow: hidden;
 }
 
@@ -70,7 +70,6 @@ const formatPrice = (price: number) => {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--text-primary);
-  margin-bottom: 0.5rem;
 }
 
 .period {
@@ -82,7 +81,7 @@ const formatPrice = (price: number) => {
 .description {
   font-size: 0.95rem;
   color: var(--text-secondary);
-  margin-bottom: 1rem;
+
   line-height: 1.5;
 }
 

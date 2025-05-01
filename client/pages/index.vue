@@ -1,8 +1,22 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import BackgroundPaths from "@/components/BackgroundPaths.vue";
 import CubeScene from "@/components/scene/CubeScene.vue";
 
+const showScene = ref(true);
+// 세션마다 다른 타임스탬프를 키로 사용
+const sceneKey = ref(Date.now());
+const route = useRoute();
+const router = useRouter();
+
+// 라우터 경로가 바뀔 때마다 새로운 키 할당
+watch(
+  () => route.fullPath,
+  () => {
+    sceneKey.value = Date.now();
+  }
+);
 const sections = ["intro", "history", "projects"];
 const labels = ["소개", "연혁", "시공 사례"];
 const projects = [
@@ -123,7 +137,7 @@ onMounted(() => {
         </p>
       </div>
       <section class="three-section">
-        <CubeScene />
+        <CubeScene :key="sceneKey" />
       </section>
     </section>
 
@@ -142,6 +156,7 @@ onMounted(() => {
       <div class="projects-grid">
         <div
           v-for="project in projects"
+          @click="router.push('/works')"
           :key="project.title"
           class="project-card"
         >

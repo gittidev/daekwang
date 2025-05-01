@@ -20,6 +20,7 @@
     "@vueuse/motion": "^3.0.3",
     "@vueuse/nuxt": "^13.0.0",
     "chart.js": "^4.4.8",
+    "dompurify": "^3.2.5",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "firebase": "^11.6.0",
