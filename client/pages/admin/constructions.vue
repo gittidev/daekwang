@@ -4,16 +4,22 @@ import { useRouter, useFetch } from "nuxt/app";
 import ConstructionForm from "@/components/admin/ConstructionForm.vue";
 import { useAdminToken } from "@/composables/useAdminToken";
 import type { ConstructionResponse } from "@/types/construction";
-
 const router = useRouter();
 const { isLoggedIn } = useAdminToken();
+const config = useRuntimeConfig();
+const token = useCookie("admin_token").value;
 
 if (!isLoggedIn.value) {
   router.push("/admin/login");
 }
 
 const { data: constructions, refresh } = await useFetch<ConstructionResponse[]>(
-  "/api/admin/constructions"
+  `${config.public.apiUrl}/admin/constructions`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
 );
 
 const editingConstruction = ref<ConstructionResponse | null>(null);

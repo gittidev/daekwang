@@ -2,7 +2,7 @@
   // https://nuxt.com/docs/guide/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "types": ["vite-plugin-glsl/ext", "@types/node"],
+    "types": ["vite-plugin-glsl/ext", "@types/node", "@nuxt/schema"],
     "moduleResolution": "node",
     "module": "ESNext",
     "baseUrl": ".",
@@ -16,6 +16,10 @@
     "composables",
     "pages",
     "app.vue",
-    "constants/zLayers.ts"
+    "constants/zLayers.ts",
+    "nuxt.config.ts",
+    "app/**/*.ts",
+    "app/**/*.vue",
+    ".nuxt/**/*.d.ts"
   ]
 }

@@ -5,13 +5,14 @@ import { useAsyncData } from "nuxt/app";
 import type { ConstructionResponse } from "@/types/construction";
 
 const isAdmin = ref(false);
+const config = useRuntimeConfig();
 
 const {
   data: constructions,
   pending: isLoading,
   error,
 } = await useAsyncData<ConstructionResponse[]>("constructions", () =>
-  $fetch("/api/constructions")
+  $fetch(`${config.public.apiUrl}/constructions`)
 );
 
 const fallbackData: ConstructionResponse[] = [

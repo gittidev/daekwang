@@ -7,12 +7,14 @@ import { computed, ref, onMounted } from "vue";
 import MonthlyConstructionChart from "@/components/MonthlyConstructionChart.vue";
 import { createAdmin } from "@/lib/api/createAdmin";
 import type { AdminCreateRequest } from "@/lib/api/createAdmin";
+import { useRuntimeConfig } from "nuxt/app";
 
 const { isLoggedIn } = useAdminToken();
 const router = useRouter();
 const isReady = ref(false);
 const newAdminId = ref("");
 const newAdminPw = ref("");
+const config = useRuntimeConfig();
 
 // 클라이언트에서만 인증 체크 및 이동 처리
 onMounted(() => {
@@ -44,7 +46,7 @@ const handleAddAdmin = async () => {
 const { data: constructions, pending } = await useAsyncData<
   ConstructionResponse[]
 >("admin-constructions-summary", () =>
-  $fetch("/admin/constructions", {
+  $fetch(`${config.public.apiUrl}/admin/constructions`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("admin_token")}`,
     },

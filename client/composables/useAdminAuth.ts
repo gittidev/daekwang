@@ -12,8 +12,6 @@ export const useAdminAuth = () => {
   const error = ref<string | null>(null);
   const config = useRuntimeConfig();
 
-  console.log(config.public.apiUrl);
-
   // 로그인
   const login = async (
     username: string,
@@ -22,7 +20,6 @@ export const useAdminAuth = () => {
     try {
       loading.value = true;
       error.value = null;
-      console.log(username, password, config.public.apiUrl); // 디버깅용 로그
 
       const res = await fetch(`${config.public.apiUrl}/admin/login`, {
         method: "POST",

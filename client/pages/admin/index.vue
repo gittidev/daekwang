@@ -31,8 +31,7 @@ const { isLoggedIn, token } = useAdminToken();
 
 onMounted(() => {
   if (process.client) {
-    console.log("isLoggedIn", isLoggedIn.value);
-    console.log("token", token.value);
+    console.log("isLoggedIn");
     if (isLoggedIn.value) {
       router.push("/admin/dashboard");
     }
@@ -42,10 +41,8 @@ onMounted(() => {
 const handdleLogin = async () => {
   try {
     const result = await login(username.value, password.value);
-    console.log(result);
     router.push("/admin/dashboard");
   } catch (error) {
-    console.log(error);
     alert("로그인에 실패했습니다. 아이디 또는 비밀번호를 확인하세요.");
   }
 };

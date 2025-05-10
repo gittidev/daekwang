@@ -1,0 +1,28 @@
+const interopDefault = r => r.default || r || []
+export default {
+  "node_modules/nuxt/dist/app/entry.js": () => import('./_nuxt/entry-styles.DyV8rVAL.mjs').then(interopDefault),
+  "app.vue": () => import('./_nuxt/app-styles.BMCJAspc.mjs').then(interopDefault),
+  "app.vue?vue&type=style&index=0&lang.css": () => import('./_nuxt/app-styles.DVvGhd8j.mjs').then(interopDefault),
+  "pages/admin/index.vue": () => import('./_nuxt/index-styles.DdFYMx3q.mjs').then(interopDefault),
+  "pages/admin/settings.vue": () => import('./_nuxt/settings-styles.DvgwTwsp.mjs').then(interopDefault),
+  "pages/admin/constructions.vue": () => import('./_nuxt/constructions-styles.DLzuYK7D.mjs').then(interopDefault),
+  "pages/works.vue": () => import('./_nuxt/works-styles.DbR2LobU.mjs').then(interopDefault),
+  "pages/admin/dashboard.vue": () => import('./_nuxt/dashboard-styles.B6ADT3j7.mjs').then(interopDefault),
+  "pages/contact.vue": () => import('./_nuxt/contact-styles.JnvIY0CP.mjs').then(interopDefault),
+  "pages/index.vue": () => import('./_nuxt/index-styles.DSOJ9jhG.mjs').then(interopDefault),
+  "pages/admin/index.vue?vue&type=style&index=0&scoped=005fe0b7&lang.css": () => import('./_nuxt/index-styles.D3Y7hgZR.mjs').then(interopDefault),
+  "pages/works.vue?vue&type=style&index=0&scoped=d08c7505&lang.css": () => import('./_nuxt/works-styles.4flKj0RT.mjs').then(interopDefault),
+  "pages/contact.vue?vue&type=style&index=0&scoped=ca2b6124&lang.css": () => import('./_nuxt/contact-styles.CT1BX0JH.mjs').then(interopDefault),
+  "pages/admin/dashboard.vue?vue&type=style&index=0&scoped=58abfb9e&lang.css": () => import('./_nuxt/dashboard-styles.CLlx5bf6.mjs').then(interopDefault),
+  "pages/index.vue?vue&type=style&index=0&scoped=166dd318&lang.css": () => import('./_nuxt/index-styles.COQjx6qC.mjs').then(interopDefault),
+  "components/common/Footer.vue": () => import('./_nuxt/Footer-styles.DtZE38eh.mjs').then(interopDefault),
+  "components/ConstructionCard.vue": () => import('./_nuxt/ConstructionCard-styles.D-GOR-RU.mjs').then(interopDefault),
+  "components/ConstructionCard.vue?vue&type=style&index=0&scoped=ef904016&lang.css": () => import('./_nuxt/ConstructionCard-styles.DZfxNP5v.mjs').then(interopDefault),
+  "components/Cursur.vue": () => import('./_nuxt/Cursur-styles.AJ_h46A-.mjs').then(interopDefault),
+  "components/common/Navbar.vue": () => import('./_nuxt/Navbar-styles.r_S78Cwo.mjs').then(interopDefault),
+  "components/common/Footer.vue?vue&type=style&index=0&scoped=2bbf8705&lang.css": () => import('./_nuxt/Footer-styles.CGJxwCev.mjs').then(interopDefault),
+  "components/Cursur.vue?vue&type=style&index=0&scoped=2a0c37e7&lang.css": () => import('./_nuxt/Cursur-styles.zgO2Sico.mjs').then(interopDefault),
+  "components/common/Navbar.vue?vue&type=style&index=0&scoped=148116d4&lang.css": () => import('./_nuxt/Navbar-styles.Y7pU5W4q.mjs').then(interopDefault),
+  "pages/admin/settings.vue?vue&type=style&index=0&scoped=f71881c1&lang.css": () => import('./_nuxt/settings-styles.Ddz518vh.mjs').then(interopDefault),
+  "pages/admin/constructions.vue?vue&type=style&index=0&scoped=c89d3b24&lang.css": () => import('./_nuxt/constructions-styles.Dx5e2Qib.mjs').then(interopDefault)
+}

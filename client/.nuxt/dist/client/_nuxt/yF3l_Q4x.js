@@ -1,0 +1,1 @@
+import{c as r,G as a}from"./CzpvF0SR.js";import{u as c}from"./BrDmpX_n.js";const k=()=>{const o=c("admin_token"),e=a(),n=u=>{o.value=u},s=()=>{o.value=null,e.push("/admin")},t=r(()=>!!o.value);return{token:o,setToken:n,clearToken:s,isLoggedIn:t}};export{k as u};

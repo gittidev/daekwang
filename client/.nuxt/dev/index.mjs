@@ -337,8 +337,8 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
-    "kakaoApiKey": "",
-    "apiUrl": "",
+    "kakaoApiKey": "1fd78490b5dee32d32599d28ea013811",
+    "apiUrl": "http://localhost:8000/api",
     "mdi": {
       "defaultSize": "1em"
     },

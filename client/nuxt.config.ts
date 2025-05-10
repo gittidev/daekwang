@@ -1,17 +1,15 @@
 import glsl from "vite-plugin-glsl";
 import { defineNuxtConfig } from "nuxt/config";
+import { fileURLToPath } from "node:url";
 
 export default defineNuxtConfig({
-  devServer: {
-    host: "0.0.0.0",
-    port: 3000,
-  },
   runtimeConfig: {
     public: {
       kakaoApiKey: process.env.KAKAO_API_KEY,
-      apiUrl: process.env.NUXT_PUBLIC_API_URL,
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || "http://localhost:8000/api",
     },
   },
+
   app: {
     head: {
       title: "대광 PC",
@@ -51,10 +49,15 @@ export default defineNuxtConfig({
     "@sidebase/nuxt-pdf",
   ],
 
-  plugins: [],
+  // plugins: ["~/plugins/fetch-auth.client.ts"],
   css: ["~/assets/scss/global.scss"],
   compatibilityDate: "2025-02-24",
   vite: {
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./", import.meta.url)),
+      },
+    },
     css: {
       preprocessorOptions: {
         scss: {},

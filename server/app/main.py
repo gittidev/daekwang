@@ -7,10 +7,12 @@ from app.routers import router
 from app.database import Base, engine, get_db
 from app.config import ENV
 from sqlalchemy.orm import Session
-from app.schemas.response import BaseResponse
+from app.schemas.response import APIResponse
 from app.schemas.admin import AdminCreate
 from app.services.admin import create_admin
 from app.models.admin import Admin
+from fastapi.responses import JSONResponse
+
 
 app = FastAPI()
 
@@ -21,27 +23,40 @@ if os.environ.get("ENV") != "production":
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "https://daekwang.site","https://www.daekwang.site"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ✅ 전역 예외 처리
+ # ✅ 전역 HTTPException 처리
 @app.exception_handler(HTTPException)
-def http_exception_handler(request: Request, exc: HTTPException):
-    error_messages = {
-        404: "요청한 리소스를 찾을 수 없습니다.",
-        401: "인증이 필요합니다.",
-        403: "권한이 없습니다.",
-    }
-    message = error_messages.get(exc.status_code, str(exc.detail))
-    return BaseResponse(
-        success=False,
-        message=message,
-        data=None,
-        code=exc.status_code
-    )
+async def http_exception_handler(request: Request, exc: HTTPException):
+     error_messages = {
+         404: "요청한 리소스를 찾을 수 없습니다.",
+         401: "인증이 필요합니다.",
+         403: "권한이 없습니다.",
+     }
+     message = error_messages.get(exc.status_code, str(exc.detail))
+     payload = APIResponse(
+         success=False,
+         message=message,
+         data=None,
+         code=exc.status_code
+     ).dict()
+     return JSONResponse(status_code=exc.status_code, content=payload)
+
+ # ✅ 전역 일반 예외 처리
+@app.exception_handler(Exception)
+async def all_exception_handler(request: Request, exc: Exception):
+     # 실제 운영환경에서는 여기서 로그를 남겨주세요.
+     payload = APIResponse(
+         success=False,
+         message="Internal Server Error",
+         data=None,
+         code=500
+     ).dict()
+     return JSONResponse(status_code=500, content=payload)
 
 # ✅ DB 테이블 자동 생성
 Base.metadata.create_all(bind=engine)

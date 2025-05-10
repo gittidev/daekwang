@@ -1,12 +1,12 @@
 # app/utils/response.py
 
 from fastapi.responses import JSONResponse
-from app.schemas.response import BaseResponse
+from app.schemas.response import APIResponse
 from app.constants.status_code import StatusCode
 from typing import Any
 
 def success_response(data: Any, message: str = "요청 성공", code: int = StatusCode.SUCCESS) -> JSONResponse:
-    return JSONResponse(content=BaseResponse(
+    return JSONResponse(content=APIResponse(
         success=True,
         message=message,
         data=data,
@@ -15,7 +15,7 @@ def success_response(data: Any, message: str = "요청 성공", code: int = Stat
     status_code=code )
 
 def error_response(message: str = "요청 실패", code: int = StatusCode.INTERNAL_SERVER_ERROR) -> JSONResponse:
-    return JSONResponse(content=BaseResponse(
+    return JSONResponse(content=APIResponse(
         success=False,
         message=message,
         data=None,

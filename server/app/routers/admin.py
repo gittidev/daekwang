@@ -7,7 +7,7 @@ from app.schemas.admin import AdminCreate, AdminLogin
 from app.schemas.token import TokenResponse
 from app.services.admin import create_admin, authenticate_admin, create_access_token, create_refresh_token
 from app.services.token import create_access_token, create_refresh_token, decode_token
-from app.schemas.response import BaseResponse
+from app.schemas.response import APIResponse
 from app.constants.status_code import StatusCode
 from app.config import ACCESS_TOKEN_EXPIRE_MINUTES
 from app.utils.exceptions import UnauthorizedException
@@ -19,7 +19,7 @@ router = APIRouter()
 
 # 관리자 생성용/ 개발자 계정 생성용 API
 
-@router.post("/dev/create-admin", response_model=BaseResponse)
+@router.post("/dev/create-admin", response_model=APIResponse)
 def create_dev_admin(db: Session = Depends(get_db)):
     username = os.environ.get("INIT_ADMIN_USERNAME")
     password = os.environ.get("INIT_ADMIN_PASSWORD")
@@ -33,7 +33,7 @@ def create_dev_admin(db: Session = Depends(get_db)):
 
     existing = db.query(Admin).filter_by(username=username).first()
     if existing:
-        return BaseResponse(
+        return APIResponse(
             success=True,
             message="ℹ️ 관리자 계정이 이미 존재합니다.",
             data=None,
@@ -42,7 +42,7 @@ def create_dev_admin(db: Session = Depends(get_db)):
 
     admin = create_admin(db, AdminCreate(username=username, password=password))
 
-    return BaseResponse(
+    return APIResponse(
         success=True,
         message="✅ 관리자 계정 생성 완료",
         data={"username": admin.username},
@@ -51,7 +51,7 @@ def create_dev_admin(db: Session = Depends(get_db)):
 
 
 
-@router.post("/login", response_model=BaseResponse[TokenResponse])
+@router.post("/login", response_model=APIResponse[TokenResponse])
 def login(admin_data: AdminLogin, db: Session = Depends(get_db)):
     admin = authenticate_admin(db, admin_data.username, admin_data.password)
     if not admin:
@@ -81,7 +81,7 @@ def login(admin_data: AdminLogin, db: Session = Depends(get_db)):
     return response
 
 
-@router.post("/create", response_model=BaseResponse)
+@router.post("/create", response_model=APIResponse)
 def add_admin(
     admin: AdminCreate,
     db: Session = Depends(get_db),
@@ -93,7 +93,7 @@ def add_admin(
 
     create_admin(db, admin)
 
-    return BaseResponse(
+    return APIResponse(
         success=True,
         message="✅ 관리자 추가 완료",
         data=None,
@@ -101,7 +101,7 @@ def add_admin(
     )
 
 
-@router.post("/refresh", response_model=BaseResponse[TokenResponse],
+@router.post("/refresh", response_model=APIResponse[TokenResponse],
                responses={
         401: {
             "description": "인증 실패: 리프레시 토큰 없음 또는 유효하지 않음",
@@ -130,7 +130,7 @@ def refresh_token(request: Request):
 
     new_access_token = create_access_token({"sub": username})
 
-    return BaseResponse(
+    return APIResponse(
         success=True,
         message="토큰 재발급 완료",
         data=TokenResponse(
@@ -143,12 +143,12 @@ def refresh_token(request: Request):
     )
 
 
-@router.post("/logout", response_model=BaseResponse)
+@router.post("/logout", response_model=APIResponse)
 def logout(response: JSONResponse):
     # 쿠키에서 refresh_token 삭제
     response.delete_cookie("refresh_token")
 
-    return BaseResponse(
+    return APIResponse(
         success=True,
         message="로그아웃 성공",
         data=None,

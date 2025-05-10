@@ -225,8 +225,8 @@ const openEmailClient = () => {
 /* 기본 컨테이너 */
 .container {
   max-width: 800px;
-  margin: 0 auto;
-  padding: 1.5rem;
+  margin: 2rem auto;
+  padding: 2rem;
   background-color: #f0f0f0;
   min-height: 100vh;
   display: flex;

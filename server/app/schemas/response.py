@@ -1,10 +1,10 @@
 from typing import Generic, Optional, TypeVar
-from pydantic.generics import GenericModel
+from pydantic import BaseModel
 from app.constants.status_code import StatusCode
 
 T = TypeVar("T")
 
-class BaseResponse(GenericModel, Generic[T]):
+class APIResponse(BaseModel, Generic[T]):
     success: bool
     message: Optional[str] = None
     data: Optional[T] =  None

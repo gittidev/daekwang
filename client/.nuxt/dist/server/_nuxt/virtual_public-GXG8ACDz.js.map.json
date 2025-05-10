@@ -1,0 +1,1 @@
+{"file":"virtual_public-GXG8ACDz.js","mappings":";AAAuD,MAAe,aAAA,gBAAgB,WAAW;","names":[],"sources":["../../../../virtual:public?%2Flogo.svg"],"sourcesContent":["import { publicAssetsURL } from '#internal/nuxt/paths';export default publicAssetsURL(\"/logo.svg\")"],"version":3}
